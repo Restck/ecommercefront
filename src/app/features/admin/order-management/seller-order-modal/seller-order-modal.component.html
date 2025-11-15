@@ -1,0 +1,95 @@
+<div class="modal-container">
+  <div class="modal-header">
+    <h2>
+      Pedidos del vendedor
+      <span *ngIf="data?.vendedorNombre" class="vendedor-nombre">
+        {{ data.vendedorNombre }}
+      </span>
+    </h2>
+    <button class="close-btn" (click)="cerrarModal()">✖</button>
+  </div>
+
+  <div class="search-bar" *ngIf="orders.length > 0">
+    <input
+      type="text"
+      placeholder="🔍 Buscar por cliente, ID o estado..."
+      [(ngModel)]="searchTerm"
+      (input)="filtrarPedidos()"
+    />
+  </div>
+
+  <div *ngIf="loading" class="loading">
+    <p>Cargando pedidos del vendedor...</p>
+  </div>
+
+  <div *ngIf="!loading && errorMessage" class="error-message">
+    <p>{{ errorMessage }}</p>
+  </div>
+
+  <div *ngIf="!loading && !errorMessage && filteredOrders.length > 0" class="table-wrapper">
+    <table class="orders-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Cliente</th>
+          <th>Fecha</th>
+          <th>Total</th>
+          <th>Estado</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let order of paginatedOrders">
+          <td>{{ order._id }}</td>
+          <td>{{ order.nombre }}</td>
+          <td>{{ order.fecha | date: 'short' }}</td>
+          <td>{{ order.total | currency: 'USD' }}</td>
+
+          <td>
+            <select
+              class="estado-select"
+              [(ngModel)]="order.estado"
+              (change)="cambiarEstado(order._id, order.estado)"
+            >
+              <option value="pendiente">Pendiente</option>
+              <option value="enviado">Enviado</option>
+              <option value="verificado">Verificado</option>
+              <option value="rechazado">Rechazado</option>
+            </select>
+          </td>
+
+          <td class="actions">
+            <button class="btn ver-productos" (click)="abrirProductosModal(order)">
+              Ver productos
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div *ngIf="!loading && filteredOrders.length > 0" class="pagination">
+    <button
+      class="page-btn"
+      [disabled]="currentPage === 1"
+      (click)="cambiarPagina(currentPage - 1)"
+    >
+      ⬅
+    </button>
+
+    <span>Página {{ currentPage }} de {{ totalPages }}</span>
+
+    <button
+      class="page-btn"
+      [disabled]="currentPage === totalPages"
+      (click)="cambiarPagina(currentPage + 1)"
+    >
+      ➡
+    </button>
+  </div>
+
+  <div *ngIf="!loading && !errorMessage && filteredOrders.length === 0" class="no-orders">
+    <p>No hay pedidos que coincidan con tu búsqueda.</p>
+  </div>
+</div>

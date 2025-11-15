@@ -1,0 +1,106 @@
+<ng-container *ngIf="pedido as ped; else cargandoTpl">
+  <div class="pedido-dialog">
+    <header class="pedido-header">
+      <h2>🧾 Detalles del Pedido</h2>
+      <p class="pedido-id">ID: {{ ped._id }}</p>
+    </header>
+
+    <section class="pedido-estado">
+      <span class="estado-label">Estado actual:</span>
+      <span class="estado-readonly">{{ ped.estado | titlecase }}</span>
+    </section>
+
+    <section class="pedido-info">
+      <h3>📦 Información de envío</h3>
+      <div class="info-grid">
+        <div class="campo">
+          <label>Dirección</label>
+          <input [(ngModel)]="ped.direccion" type="text" />
+        </div>
+        <div class="campo">
+          <label>Teléfono</label>
+          <input [(ngModel)]="ped.telefono" type="text" />
+        </div>
+        <div class="campo">
+          <label>Ciudad</label>
+          <input [(ngModel)]="ped.ciudad" type="text" />
+        </div>
+        <div class="campo full">
+          <label>Indicaciones</label>
+          <textarea [(ngModel)]="ped.indicaciones"></textarea>
+        </div>
+      </div>
+    </section>
+
+    <section class="pedido-productos">
+
+      <div class="tabla-contenedor">
+        <table class="productos-tabla">
+          <thead>
+            <tr>
+              <th>Producto</th>
+              <th>Precio</th>
+              <th>Cantidad</th>
+              <th>Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let p of ped.productos; let i = index">
+              <td>{{ p.producto.nombre || 'Sin nombre' }}</td>
+              <td>{{ p.producto.precio | currency:'COP' }}</td>
+              <td class="cantidad">
+                <button
+                  (click)="cambiarCantidad(i, -1)"
+                  [disabled]="
+                    p.cantidad <= (pedidoOriginal?.productos?.[i]?.cantidad || 0)
+                  "
+                >
+                  −
+                </button>
+                {{ p.cantidad }}
+                <button (click)="cambiarCantidad(i, 1)">+</button>
+              </td>
+              <td>{{ (p.producto.precio || 0) * (p.cantidad || 0) | currency:'COP' }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <div class="pedido-footer">
+      <div class="total">
+        <strong>Total:</strong> {{ ped.total | currency:'COP' }}
+        <span *ngIf="ped.total > (pedidoOriginal?.total || 0)" class="excedente">
+          (+{{ ped.total - (pedidoOriginal?.total || 0) | currency:'COP' }} excedente)
+        </span>
+      </div>
+
+      <div class="acciones">
+        <button class="btn-cancelar" (click)="cerrar()">Cancelar</button>
+        <button
+          class="btn-guardar"
+          (click)="guardarCambios()"
+          [disabled]="guardando"
+        >
+          {{
+            guardando
+              ? 'Guardando...'
+              : (ped.total > (pedidoOriginal?.total || 0)
+                ? 'Guardar y pagar excedente'
+                : 'Guardar cambios')
+          }}
+        </button>
+      </div>
+    </div>
+
+    <p class="mensaje" *ngIf="mensaje">{{ mensaje }}</p>
+  </div>
+</ng-container>
+
+<ng-template #cargandoTpl>
+  <div class="loading">
+    <div class="spinner"></div>
+    <p>Cargando pedido...</p>
+  </div>
+</ng-template>
+  |

@@ -1,0 +1,28 @@
+<div class="user-layout">
+  <mat-toolbar color="primary" class="topbar">
+    <span class="toolbar-title">Panel del Cliente</span>
+  </mat-toolbar>
+
+  <div class="layout-body">
+    <!-- Sidebar -->
+    <mat-nav-list class="sidebar">
+      <a mat-list-item routerLink="/cliente/perfil" routerLinkActive="active">
+        <mat-icon>person</mat-icon>
+        <span>Mi perfil</span>
+      </a>
+      <a mat-list-item routerLink="/cliente/mis-pedidos" routerLinkActive="active">
+        <mat-icon>shopping_bag</mat-icon>
+        <span>Mis pedidos</span>
+      </a>
+      <a mat-list-item (click)="logout()">
+        <mat-icon>logout</mat-icon>
+        <span>Cerrar sesión</span>
+      </a>
+    </mat-nav-list>
+
+    <!-- Contenido dinámico -->
+    <div class="content">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>

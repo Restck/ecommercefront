@@ -1,0 +1,55 @@
+<div class="main-content">
+  <div class="filtro sticky-filtro">
+    <mat-form-field appearance="outline" class="busqueda">
+      <input matInput placeholder="Buscar productos" [(ngModel)]="terminoBusqueda"
+        (input)="onSearch(terminoBusqueda)" />
+    </mat-form-field>
+
+    <h3>Filtrar por categoría</h3>
+    <div class="categoria-opciones">
+      <a *ngFor="let categoria of categorias" (click)="filtrarPorCategoria(categoria)"
+        [class.activa]="categoriaSeleccionada === categoria">
+        {{ categoria }}
+      </a>
+    </div>
+
+    <button mat-button color="primary" (click)="limpiarFiltros()">Limpiar filtros</button>
+  </div>
+
+  <div class="productos" *ngIf="productosFiltrados.length > 0">
+    <div *ngFor="let categoria of categorias" class="categoria-bloque">
+      <ng-container *ngIf="filtrarPorNombreCategoria(productosFiltrados, categoria).length">
+        <!-- Header de categoría con botón Ver más -->
+        <div class="categoria-header">
+          <a [routerLink]="['/categoria', categoria]" class="categoria-titulo"
+            [ngStyle]="{ 'border-left': '6px solid ' + getColorParaCategoria(categoria) }">
+            {{ categoria }}
+          </a>
+
+          <!-- Mostrar "Ver más" solo si hay más de 4 productos y no hay filtro -->
+          <a *ngIf="filtrarPorNombreCategoria(productosFiltrados, categoria).length > 4 && !categoriaSeleccionada"
+            [routerLink]="['/categoria', categoria]" class="ver-mas-btn" mat-stroked-button color="primary">
+            Ver más <mat-icon style="margin-left: 4px;">arrow_forward</mat-icon>
+          </a>
+
+        </div>
+
+        <!-- Tarjetas como slider o grid -->
+        <div [ngClass]="{
+            'tarjetas-scroll': !categoriaSeleccionada,
+            'tarjetas-grid': categoriaSeleccionada
+          }">
+          <app-product-card *ngFor="
+              let producto of categoriaSeleccionada
+                ? filtrarPorNombreCategoria(productosFiltrados, categoria)
+                : filtrarPorNombreCategoria(productosFiltrados, categoria).slice(0, 4)
+            " [producto]="producto"></app-product-card>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+
+  <div class="no-result" *ngIf="!productosFiltrados.length">
+    <p>No se encontraron productos.</p>
+  </div>
+</div>

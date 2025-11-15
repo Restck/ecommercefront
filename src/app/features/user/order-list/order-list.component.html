@@ -1,0 +1,53 @@
+<section class="mis-pedidos">
+  <div class="header">
+    <h2><mat-icon>list_alt</mat-icon> Mis Pedidos</h2>
+  </div>
+
+  <div class="contenido-scroll">
+    <ng-container *ngIf="!cargando; else cargandoSpinner">
+      <div *ngIf="pedidos.length; else sinPedidos" class="pedido-grid">
+        <mat-card class="pedido-card" *ngFor="let pedido of pedidos">
+          <div class="pedido-header">
+            <div class="pedido-id">
+              <mat-icon color="primary">confirmation_number</mat-icon>
+              <span>#{{ pedido._id.slice(0, 8) }}...</span>
+            </div>
+            <span class="estado" [ngClass]="pedido.estado">{{ pedido.estado }}</span>
+          </div>
+
+          <div class="pedido-detalle">
+            <p><strong>Fecha:</strong> {{ pedido.fecha | date:'mediumDate' }}</p>
+            <p><strong>Total:</strong> {{ pedido.total | currency:'COP':'symbol' }}</p>
+          </div>
+
+          <div class="pedido-acciones">
+            <button mat-flat-button color="primary" (click)="verDetalle(pedido)">
+              <mat-icon>visibility</mat-icon>
+              Ver Detalle
+            </button>
+
+            <a *ngIf="pedido.comprobantePago"
+               [href]="pedido.comprobantePago"
+               target="_blank"
+               rel="noopener"
+               mat-flat-button
+               color="accent">
+              <mat-icon>receipt</mat-icon>
+              Comprobante
+            </a>
+          </div>
+        </mat-card>
+      </div>
+    </ng-container>
+
+    <ng-template #cargandoSpinner>
+      <div class="spinner">
+        <mat-spinner diameter="40"></mat-spinner>
+      </div>
+    </ng-template>
+
+    <ng-template #sinPedidos>
+      <p class="mensaje-vacio">Aún no has realizado ningún pedido.</p>
+    </ng-template>
+  </div>
+</section>

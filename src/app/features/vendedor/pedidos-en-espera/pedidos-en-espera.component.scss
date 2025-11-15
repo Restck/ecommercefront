@@ -1,0 +1,170 @@
+.pedidos-container {
+  background-color: #fff;
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+  font-family: 'Poppins', sans-serif;
+  color: #333;
+  margin: 1rem auto;
+  width: 100%;
+
+  h2 {
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: #164a9c;
+    margin-bottom: 1.5rem;
+    text-align: center;
+  }
+
+  /* 🔍 Buscador */
+  .search-box {
+    width: 100%;
+    margin-bottom: 1.5rem;
+
+    mat-label {
+      color: #164a9c;
+    }
+
+    input {
+      font-size: 0.95rem;
+    }
+
+    mat-icon {
+      color: #666;
+    }
+  }
+
+  /* Loader */
+  .loader {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    color: #555;
+    padding: 2rem 0;
+
+    mat-spinner {
+      margin-bottom: 0.5rem;
+    }
+  }
+
+  /* Error */
+  .error {
+    background-color: #fdecea;
+    color: #b71c1c;
+    padding: 1rem;
+    border-radius: 8px;
+    text-align: center;
+    margin: 1rem 0;
+    font-weight: 500;
+  }
+
+  /* Tabla */
+  table {
+    width: 100%;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #fafafa;
+
+    th {
+      background-color: #164a9c;
+      color: white;
+      font-weight: 500;
+      text-align: left;
+      padding: 0.75rem;
+      font-size: 0.95rem;
+    }
+
+    td {
+      padding: 0.75rem;
+      border-bottom: 1px solid #e0e0e0;
+      vertical-align: middle;
+
+      button[mat-stroked-button] {
+        font-size: 0.85rem;
+        display: flex;
+        align-items: center;
+        gap: 0.3rem;
+      }
+
+      mat-form-field.estado-select {
+        width: 140px;
+
+        mat-select {
+          font-size: 0.9rem;
+        }
+      }
+
+      button[mat-icon-button] {
+        transition: all 0.2s ease;
+
+        &:hover {
+          transform: scale(1.15);
+          color: #164a9c;
+        }
+      }
+    }
+
+    tr:hover {
+      background-color: #f0f4ff;
+    }
+  }
+
+  /* Paginador */
+  mat-paginator {
+    margin-top: 1rem;
+    border-top: 1px solid #e0e0e0;
+  }
+
+  /* Sin pedidos */
+  .no-pedidos {
+    text-align: center;
+    color: #888;
+    font-size: 1rem;
+    padding: 2rem 0;
+  }
+}
+
+/* 📱 Responsive */
+@media (max-width: 900px) {
+  .pedidos-container {
+    padding: 1rem;
+
+    h2 {
+      font-size: 1.5rem;
+    }
+
+    table {
+      th,
+      td {
+        padding: 0.5rem;
+        font-size: 0.85rem;
+      }
+
+      button[mat-stroked-button] {
+        padding: 0.3rem 0.6rem;
+        font-size: 0.8rem;
+      }
+
+      mat-form-field.estado-select {
+        width: 110px;
+      }
+    }
+  }
+}
+
+@media (max-width: 600px) {
+  table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+  .search-box {
+    margin-bottom: 1rem;
+  }
+
+  .no-pedidos {
+    font-size: 0.9rem;
+  }
+}

@@ -1,0 +1,208 @@
+.detalle-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  padding: 2rem;
+
+  .producto-detalle-horizontal {
+    display: flex;
+    gap: 2rem;
+    align-items: flex-start;
+    flex-wrap: wrap;
+
+    .info-contenedor {
+      flex: 2;
+      padding: 0;
+      background-color: #ffffff;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+      border-radius: 12px;
+
+      .contenido-interno {
+        display: flex;
+        gap: 2rem;
+        align-items: flex-start;
+
+        .zona-imagen {
+          flex: 1;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          background-color: #ffffff;
+          border-radius: 0;
+          padding: 0;
+
+          img {
+            width: 100%;
+            height: auto;
+            object-fit: contain;
+            border-radius: 0;
+            margin: 0;
+          }
+        }
+
+        .zona-texto {
+          flex: 2;
+          display: flex;
+          flex-direction: column;
+          gap: 1rem;
+          padding: 1.5rem 1rem 1.5rem 0;
+
+          .nombre {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin: 0;
+          }
+
+          .categoria {
+            font-size: 1rem;
+            color: #666;
+          }
+
+          .descripcion {
+            font-size: 1.1rem;
+            color: #333;
+          }
+        }
+      }
+    }
+
+    .zona-info {
+      flex: 1;
+      padding: 2rem;
+      background-color: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+
+      .precio {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: #2e7d32;
+      }
+
+      .stock {
+        font-size: 1rem;
+        color: #555;
+      }
+
+      /* ✅ Contador sobrio y minimalista */
+      .contador-cantidad {
+        display: flex;
+        align-items: center;
+        overflow: hidden;
+        height: 38px;
+
+        button {
+          background: transparent;
+          color: #555;
+          border: none;
+          width: 40px;
+          height: 100%;
+          font-size: 1.3rem;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          transition: background 0.2s ease, color 0.2s ease;
+
+          &:hover {
+            background: #e9ecef;
+            color: #222;
+          }
+
+          &:active {
+            background: #dfe3e6;
+          }
+
+          &:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            background: transparent;
+          }
+        }
+
+        input {
+          width: 50px;
+          height: 100%;
+          text-align: center;
+          font-size: 1rem;
+          font-weight: 500;
+          border: none;
+          background: transparent;
+          outline: none;
+          color: #333;
+
+          &::-webkit-inner-spin-button,
+          &::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+          }
+        }
+      }
+
+      .btn-carrito {
+        font-weight: bold;
+        padding: 0.7rem;
+      }
+
+      .btn-comprar-ahora {
+        font-weight: 500;
+        padding: 0.6rem;
+      }
+    }
+  }
+
+  .recomendados {
+    margin-top: 2rem;
+
+    h2 {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .tarjetas {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.2rem;
+    }
+  }
+}
+
+::ng-deep .snackbar-warning {
+  background-color: #fbc02d;
+  color: #000;
+  font-weight: 500;
+}
+
+@media (max-width: 768px) {
+  .producto-detalle-horizontal {
+    flex-direction: column;
+
+    .info-contenedor,
+    .zona-info {
+      width: 100%;
+    }
+
+    .contenido-interno {
+      flex-direction: column;
+
+      .zona-imagen,
+      .zona-texto {
+        width: 100%;
+      }
+
+      .zona-imagen {
+        justify-content: center;
+      }
+    }
+
+    .zona-info {
+      .contador-cantidad {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+  }
+}

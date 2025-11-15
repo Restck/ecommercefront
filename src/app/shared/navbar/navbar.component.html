@@ -1,0 +1,60 @@
+<mat-toolbar class="navbar">
+  <!-- Logo -->
+  <div class="logo" routerLink="/">
+    <mat-icon class="logo-icon">phone_iphone</mat-icon>
+    <span class="logo-text">JYnnovatec</span>
+  </div>
+
+  <span class="spacer"></span>
+
+  <!-- Menú común -->
+  <a mat-button routerLink="/productos">Inicio</a>
+
+  <!-- Carrito (solo cliente logueado) -->
+  <ng-container *ngIf="auth.isLoggedIn() && auth.isCliente()">
+    <button mat-icon-button routerLink="/carrito" class="carrito-boton" matTooltip="Carrito de compras">
+      <mat-icon>shopping_cart</mat-icon>
+      <span class="contador" *ngIf="totalProductos > 0">{{ totalProductos }}</span>
+    </button>
+  </ng-container>
+
+  <!-- No autenticado -->
+  <ng-container *ngIf="!auth.isLoggedIn()">
+    <button mat-button [matMenuTriggerFor]="authMenu">Ingresa</button>
+    <mat-menu #authMenu="matMenu">
+      <button mat-menu-item routerLink="/login">Iniciar sesión</button>
+      <button mat-menu-item routerLink="/registro">Registrarse</button>
+    </mat-menu>
+  </ng-container>
+
+  <!-- Usuario autenticado -->
+  <ng-container *ngIf="auth.isLoggedIn()">
+    <button mat-button [matMenuTriggerFor]="userMenu" [ngStyle]="{ color: colorPorRol() }">
+      <mat-icon class="icon-rol">{{ iconoPorRol() }}</mat-icon>
+      {{ nombreUsuario() }}
+    </button>
+
+    <mat-menu #userMenu="matMenu">
+      <!-- Cliente -->
+      <ng-container *ngIf="auth.isCliente()">
+        <button mat-menu-item routerLink="/cliente/perfil">Mi perfil</button>
+        <button mat-menu-item routerLink="/cliente/mis-pedidos">Mis pedidos</button>
+        <mat-divider></mat-divider>
+      </ng-container>
+
+      <!-- Vendedor -->
+      <ng-container *ngIf="auth.isVendedor()">
+        <button mat-menu-item routerLink="/vendedor">Panel vendedor</button>
+        <mat-divider></mat-divider>
+      </ng-container>
+
+      <!-- Admin -->
+      <ng-container *ngIf="auth.isAdmin()">
+        <button mat-menu-item routerLink="/admin">Panel admin</button>
+        <mat-divider></mat-divider>
+      </ng-container>
+
+      <button mat-menu-item (click)="logout()">Cerrar sesión</button>
+    </mat-menu>
+  </ng-container>
+</mat-toolbar>

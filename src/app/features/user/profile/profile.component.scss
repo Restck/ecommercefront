@@ -1,0 +1,39 @@
+:host {
+  display: flex;
+  justify-content: center;
+  padding: 2rem;
+  background-color: #fff;
+  min-height: 100vh;
+}
+
+mat-card {
+  width: 100%;
+  max-width: 500px;
+  padding: 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  background-color: white;
+
+  h2 {
+    margin-bottom: 1.5rem;
+    text-align: center;
+    font-size: 1.8rem;
+    color: #333;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+
+    mat-form-field {
+      width: 100%;
+    }
+
+    button {
+      align-self: center;
+      padding: 0.6rem 2rem;
+      font-weight: 600;
+    }
+  }
+}

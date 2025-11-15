@@ -1,0 +1,224 @@
+.pedidos-container {
+  min-height: 100vh;
+  padding: 2rem;
+  background: linear-gradient(135deg, #eef2ff 0%, #f9fafc 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: fadeIn 0.6s ease-in-out;
+
+  // 🎯 Título principal
+  h2 {
+    font-size: 2rem;
+    color: #2b3a67;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 2.5rem;
+    position: relative;
+    letter-spacing: 0.3px;
+
+    &::after {
+      content: "";
+      display: block;
+      width: 80px;
+      height: 4px;
+      background: #4f46e5;
+      margin: 0.8rem auto 0;
+      border-radius: 4px;
+    }
+  }
+
+  // 🔍 Buscador con estilo moderno
+  .buscador {
+    width: 100%;
+    max-width: 420px;
+    margin-bottom: 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+
+    mat-form-field {
+      flex: 1;
+      background: #fff;
+      border-radius: 10px;
+      padding: 0.5rem 0.8rem;
+      transition: all 0.2s ease-in-out;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+
+      &:focus-within {
+        box-shadow: 0 4px 10px rgba(79, 70, 229, 0.25);
+        transform: translateY(-2px);
+      }
+    }
+
+    button {
+      background: #4f46e5;
+      color: #fff;
+      font-weight: 500;
+      border-radius: 10px;
+      padding: 0.6rem 1.2rem;
+      transition: all 0.2s ease;
+
+      &:hover {
+        background: #6366f1;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(99, 102, 241, 0.3);
+      }
+    }
+  }
+
+  // 🧾 Tarjeta envolvente
+  .tabla-wrapper {
+    width: 100%;
+    max-width: 1100px;
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    transition: all 0.3s ease-in-out;
+
+    &:hover {
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    }
+
+    // 📋 Tabla
+    .tabla-pedidos {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.95rem;
+
+      thead {
+        background: #4f46e5;
+        color: #fff;
+
+        th {
+          padding: 1rem;
+          text-align: left;
+          font-weight: 600;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+        }
+      }
+
+      tbody {
+        tr {
+          border-bottom: 1px solid #eaeaea;
+          transition: all 0.25s ease;
+
+          &:hover {
+            background: #f8f9ff;
+            transform: scale(1.01);
+          }
+
+          td {
+            padding: 1rem;
+            color: #333;
+            vertical-align: middle;
+          }
+
+          // 🔘 Acciones
+          .acciones {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 0.6rem;
+
+            button {
+              background: #f3f4f6;
+              border-radius: 8px;
+              padding: 0.4rem 0.8rem;
+              font-size: 0.8rem;
+              transition: all 0.2s ease;
+
+              &:hover {
+                background: #e0e7ff;
+                color: #4f46e5;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  // 📄 Paginación moderna
+  .paginacion {
+    margin-top: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+
+    button {
+      background: #4f46e5;
+      color: white;
+      border-radius: 10px;
+      padding: 0.5rem 1.2rem;
+      font-weight: 500;
+      transition: all 0.2s ease;
+
+      &:hover {
+        background: #6366f1;
+        transform: translateY(-2px);
+      }
+    }
+
+    span {
+      color: #444;
+      font-weight: 600;
+    }
+  }
+
+  // 📱 Responsive
+  @media (max-width: 992px) {
+    padding: 1.5rem;
+
+    h2 {
+      font-size: 1.6rem;
+    }
+  }
+
+  @media (max-width: 768px) {
+    padding: 1rem;
+
+    .tabla-wrapper {
+      border-radius: 12px;
+      overflow-x: auto;
+
+      .tabla-pedidos {
+        min-width: 700px;
+      }
+    }
+
+    .buscador {
+      flex-direction: column;
+      max-width: 100%;
+
+      button {
+        width: 100%;
+        max-width: 240px;
+      }
+    }
+  }
+
+  @media (max-width: 480px) {
+    h2 {
+      font-size: 1.3rem;
+    }
+  }
+}
+
+// ✨ Animación
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

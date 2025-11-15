@@ -1,0 +1,16 @@
+.control-card {
+  margin: 2rem;
+  padding: 1rem;
+  background-color: #fdfdfd;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+
+  ::ng-deep .mat-tab-label {
+    font-weight: 600;
+    font-size: 16px;
+  }
+
+  ::ng-deep .mat-tab-body {
+    padding: 1.5rem;
+  }
+}

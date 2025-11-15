@@ -1,0 +1,64 @@
+<div class="payment-container">
+  <mat-card class="payment-card">
+    
+    <h2 class="title">Pago con Nequi</h2>
+
+    <!-- DATOS DEL COMPRADOR -->
+    <div class="buyer-info">
+      <p><strong>Nombre:</strong> {{ nombre }}</p>
+      <p><strong>Teléfono:</strong> {{ telefono }}</p>
+      <p><strong>Ciudad:</strong> {{ ciudad }}</p>
+      <p><strong>Dirección:</strong> {{ direccion }}</p>
+      <p *ngIf="indicaciones"><strong>Indicaciones:</strong> {{ indicaciones }}</p>
+    </div>
+
+    <mat-divider></mat-divider>
+
+    <!-- PRODUCTOS -->
+    <div class="productos-section">
+      <h3>Productos</h3>
+
+      <div class="producto" *ngFor="let p of productos">
+        <div class="producto-info">
+          <strong>{{ p.nombre || p.producto?.nombre }}</strong>
+          <span>Cantidad: {{ p.cantidad }}</span>
+        </div>
+        <span class="precio">${{ p.precio || p.producto?.precio | number:'1.0-0' }}</span>
+      </div>
+    </div>
+
+    <mat-divider></mat-divider>
+
+    <!-- QR y número -->
+    <div class="nequi-section">
+      <p class="nequi-number">📱 {{ numeroNequi }}</p>
+      <p class="nequi-description">
+        Escanea el código QR o transfiere el valor exacto a este número desde tu cuenta Nequi.
+      </p>
+
+      <div class="qr-container">
+        <img
+          [src]="qrUrl"
+          alt="QR Nequi"
+          class="qr-image"
+          (error)="onQrError($event)"
+        />
+      </div>
+    </div>
+
+    <mat-divider></mat-divider>
+
+    <!-- TOTAL -->
+    <div class="total">
+      <p>Total a pagar:</p>
+      <span class="amount">${{ total | number:'1.0-0' }}</span>
+    </div>
+
+    <!-- BOTONES -->
+    <div class="actions">
+      <button mat-stroked-button color="warn" (click)="volverAlCarrito()">Cancelar</button>
+      <button mat-raised-button color="primary" (click)="continuar()">Subir Comprobante</button>
+    </div>
+
+  </mat-card>
+</div>

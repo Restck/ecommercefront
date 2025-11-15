@@ -1,0 +1,10 @@
+<h2>Administrar Productos</h2>
+
+<div *ngIf="productos.length === 0">No hay productos registrados.</div>
+
+<ul *ngIf="productos.length > 0">
+  <li *ngFor="let producto of productos">
+    <strong>{{ producto.nombre }}</strong> - ${{ producto.precio }} - {{ producto.categoria }}
+    <button (click)="eliminar(producto._id!)">🗑️ Eliminar</button>
+  </li>
+</ul>

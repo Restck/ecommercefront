@@ -1,0 +1,33 @@
+<!-- vendedor-layout.component.html -->
+<mat-toolbar color="primary" class="navbar">
+  <!-- Logo -->
+  <div class="logo" routerLink="/">
+    <mat-icon>store</mat-icon>
+    <span>Panel Vendedor</span>
+  </div>
+
+  <span class="spacer"></span>
+
+  <!-- Menú de navegación -->
+  <a mat-button routerLink="/vendedor/dashboard" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+    <mat-icon>dashboard</mat-icon> Dashboard
+  </a>
+
+  <a mat-button routerLink="/vendedor/armar-pedido" routerLinkActive="active">
+    <mat-icon>add_shopping_cart</mat-icon> Armar pedido
+  </a>
+
+  <a mat-button routerLink="/vendedor/pedidos-en-espera" routerLinkActive="active">
+    <mat-icon>hourglass_empty</mat-icon> Pedidos en espera
+  </a>
+
+  <!-- Botón de cierre de sesión -->
+  <button mat-button (click)="logout()">
+    <mat-icon>logout</mat-icon> Cerrar sesión
+  </button>
+</mat-toolbar>
+
+<!-- Contenedor principal -->
+<div class="main-content">
+  <router-outlet></router-outlet>
+</div>

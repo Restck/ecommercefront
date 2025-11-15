@@ -1,0 +1,63 @@
+<mat-card class="form-card" *ngIf="!cargando">
+
+  <h2 class="form-title">Subir Comprobante</h2>
+
+  <form (ngSubmit)="enviar()" class="form-content">
+
+    <!-- TITULAR -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Nombre del titular</mat-label>
+      <input
+        matInput
+        [(ngModel)]="nombreTitular"
+        name="nombreTitular"
+        required
+        placeholder="Ej: Juan Pérez"
+      />
+    </mat-form-field>
+
+    <!-- REFERENCIA -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Referencia de pago</mat-label>
+      <input
+        matInput
+        [(ngModel)]="referenciaPago"
+        name="referenciaPago"
+        required
+        placeholder="Ej: 987654321"
+      />
+    </mat-form-field>
+
+    <!-- SUBIR COMPROBANTE -->
+    <div class="upload-section">
+      <button mat-flat-button color="primary" type="button" (click)="fileInput.click()">
+        📎 Seleccionar comprobante
+      </button>
+
+      <input
+        type="file"
+        accept="image/*,application/pdf"
+        hidden
+        #fileInput
+        (change)="subirArchivo($event)"
+      />
+
+      <span class="file-name" *ngIf="nombreArchivo">📁 {{ nombreArchivo }}</span>
+    </div>
+
+    <!-- PREVIEW -->
+    <img *ngIf="vistaPrevia" [src]="vistaPrevia" class="vista-previa" />
+
+    <!-- BOTÓN -->
+    <button mat-raised-button color="accent" type="submit" class="submit-button">
+      ✅ Enviar comprobante
+    </button>
+
+  </form>
+
+</mat-card>
+
+<!-- LOADING -->
+<mat-card class="loading-card" *ngIf="cargando">
+  <p>⏳ Subiendo comprobante, por favor espera...</p>
+</mat-card>

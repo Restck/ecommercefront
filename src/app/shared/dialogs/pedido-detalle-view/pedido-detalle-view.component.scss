@@ -1,0 +1,167 @@
+.detalle-container {
+  background: #fff;
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  font-family: 'Poppins', sans-serif;
+  color: #333;
+  max-width: 900px;
+  margin: 10% auto;
+
+  h2 {
+    font-size: 1.8rem;
+    color: #164a9c;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    text-align: center;
+  }
+
+  .info-section {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+
+    .info-item {
+      background: #f8f9fa;
+      padding: 0.75rem 1rem;
+      border-radius: 8px;
+      border: 1px solid #e4e6eb;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.95rem;
+
+      strong {
+        color: #164a9c;
+        font-weight: 600;
+      }
+
+      span {
+        color: #444;
+      }
+    }
+  }
+
+  .productos-section {
+    h3 {
+      font-size: 1.3rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      color: #164a9c;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      border-radius: 8px;
+      overflow: hidden;
+      background: #fafafa;
+
+      thead {
+        background-color: #164a9c;
+        color: #fff;
+
+        th {
+          text-align: left;
+          padding: 0.75rem;
+          font-weight: 500;
+          font-size: 0.95rem;
+        }
+      }
+
+      tbody tr {
+        transition: background 0.2s ease;
+        border-bottom: 1px solid #e0e0e0;
+
+        &:hover {
+          background-color: #f0f4ff;
+        }
+
+        td {
+          padding: 0.75rem;
+          font-size: 0.9rem;
+          color: #333;
+        }
+      }
+    }
+
+    .total {
+      margin-top: 1.2rem;
+      text-align: right;
+      font-size: 1.1rem;
+
+      strong {
+        color: #164a9c;
+        margin-right: 0.5rem;
+      }
+    }
+  }
+
+  .sin-productos {
+    text-align: center;
+    color: #999;
+    font-style: italic;
+  }
+
+  .estado {
+    text-transform: capitalize;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+
+    &.pendiente {
+      background: #fff3cd;
+      color: #856404;
+    }
+
+    &.verificado {
+      background: #d4edda;
+      color: #155724;
+    }
+
+    &.rechazado {
+      background: #f8d7da;
+      color: #721c24;
+    }
+
+    &.enviado {
+      background: #cce5ff;
+      color: #004085;
+    }
+  }
+
+  .acciones {
+    margin-top: 2rem;
+    display: flex;
+    justify-content: center;
+
+    button {
+      background: #164a9c;
+      color: #fff;
+      padding: 0.7rem 2rem;
+      border-radius: 8px;
+      font-weight: 500;
+      transition: all 0.2s ease;
+
+      &:hover {
+        background: #11387b;
+        transform: scale(1.02);
+      }
+    }
+  }
+}
+
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem;
+  color: #555;
+
+  mat-spinner {
+    margin-bottom: 1rem;
+  }
+}

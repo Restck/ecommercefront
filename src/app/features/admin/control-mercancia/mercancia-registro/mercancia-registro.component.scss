@@ -1,0 +1,80 @@
+.mercancia-container {
+  padding: 2rem;
+  background: #fafafa;
+  border-radius: 12px;
+
+  h2 {
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    color: #333;
+  }
+
+  .buscador {
+    margin-bottom: 1rem;
+
+    mat-form-field {
+      width: 100%;
+      background: #fff;
+      border-radius: 8px;
+    }
+  }
+
+  .full-width-table {
+    width: 100%;
+    border-radius: 8px;
+    overflow: hidden;
+
+    th {
+      background: #f4f6f8;
+      font-weight: 600;
+      color: #555;
+    }
+
+    td {
+      background: #fff;
+      color: #333;
+    }
+
+    tr:nth-child(even) td {
+      background: #f9f9f9;
+    }
+
+    th, td {
+      padding: 0.8rem 1rem;
+    }
+  }
+
+  .cantidad-input {
+    max-width: 80px;
+
+    input {
+      text-align: center;
+    }
+  }
+
+  button {
+    margin-right: 0.5rem;
+    font-weight: 500;
+    border-radius: 6px;
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+
+  mat-paginator {
+    margin-top: 1rem;
+    background: #fff;
+    border-radius: 8px;
+    padding: 0.5rem;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  }
+
+  .loading-text {
+    text-align: center;
+    margin-top: 1rem;
+    font-size: 1rem;
+    color: #666;
+  }
+}

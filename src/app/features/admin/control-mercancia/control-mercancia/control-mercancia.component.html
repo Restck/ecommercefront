@@ -1,0 +1,8 @@
+<mat-tab-group [(selectedIndex)]="tabIndex">
+  <mat-tab label="Registrar Producto">
+    <app-registro-mercancia (registroCompleto)="onRegistroCompleto()"></app-registro-mercancia>
+  </mat-tab>
+  <mat-tab label="Listado de Mercancía">
+    <app-mercancia-registro></app-mercancia-registro>
+  </mat-tab>
+</mat-tab-group>

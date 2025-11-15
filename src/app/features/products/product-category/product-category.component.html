@@ -1,0 +1,23 @@
+<div class="category-container">
+  
+  <h2 class="category-title">Categoría: {{ categoriaUrl | titlecase }}</h2>
+
+  <!-- Spinner de carga -->
+  <div *ngIf="cargando" class="spinner-container">
+    <mat-spinner diameter="40"></mat-spinner>
+  </div>
+
+  <!-- Lista de productos -->
+  <div class="products-grid" *ngIf="!cargando && productosFiltrados.length > 0">
+    <app-product-card
+      *ngFor="let producto of productosFiltrados"
+      [producto]="producto"
+    ></app-product-card>
+  </div>
+
+  <!-- Sin resultados -->
+  <div *ngIf="!cargando && productosFiltrados.length === 0" class="no-results">
+    <mat-icon>sentiment_dissatisfied</mat-icon>
+    <p>No se encontraron productos en esta categoría.</p>
+  </div>
+</div>

@@ -1,0 +1,61 @@
+<div class="carrito-container">
+
+  <!-- 🛒 Título -->
+  <h2 class="titulo">Tu carrito de compras</h2>
+
+  <!-- 🛍️ Lista de productos -->
+  <div class="carrito-lista" *ngIf="carrito.length > 0; else vacio">
+    <div class="item-card" *ngFor="let item of carrito">
+      <!-- Imagen -->
+      <div class="imagen">
+        <img [src]="item.producto.imagen" alt="{{ item.producto.nombre }}" />
+      </div>
+
+      <!-- Info del producto -->
+      <div class="info">
+        <div class="nombre">{{ item.producto.nombre }}</div>
+        <div class="precio-unitario">Precio unitario: ${{ item.producto.precio | number:'1.0-0' }}</div>
+
+        <!-- Selección de cantidad -->
+        <div class="cantidad-input">
+          <label>Cantidad:</label>
+          <input type="number" [(ngModel)]="item.cantidad" (ngModelChange)="actualizarCantidad(item, item.cantidad)" min="1" />
+        </div>
+      </div>
+
+      <!-- Subtotal y eliminar -->
+      <div class="acciones">
+        <div class="subtotal">Subtotal: ${{ item.producto.precio * item.cantidad | number:'1.0-0' }}</div>
+        <button mat-icon-button color="warn" (click)="eliminarProducto(item.producto._id)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ✅ Total y acciones -->
+  <div *ngIf="carrito.length > 0" class="total-container">
+    <div class="resumen-total">Total: ${{ total() | number:'1.0-0' }}</div>
+
+    <div class="acciones-finales">
+      <button mat-raised-button class="btn-vaciar" (click)="vaciarCarrito()">
+        <mat-icon>delete_sweep</mat-icon> Vaciar carrito
+      </button>
+
+      <button mat-raised-button class="btn-checkout" (click)="irACheckout()">
+        <mat-icon>shopping_bag</mat-icon> Finalizar compra
+      </button>
+    </div>
+  </div>
+
+  <!-- 🪹 Carrito vacío -->
+  <ng-template #vacio>
+    <div class="carrito-vacio">
+      <mat-icon>remove_shopping_cart</mat-icon>
+      <p>Tu carrito está vacío</p>
+      <button mat-raised-button color="primary" routerLink="/productos">
+        <mat-icon>storefront</mat-icon> Seguir comprando
+      </button>
+    </div>
+  </ng-template>
+</div>

@@ -1,0 +1,161 @@
+.main-content {
+  display: flex;
+  gap: 2rem;
+  padding: 1rem;
+
+  .filtro {
+    width: 260px;
+    background-color: #fff;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.07);
+    position: sticky;
+    top: 1rem;
+    z-index: 100;
+    max-height: calc(100vh - 2rem);
+    overflow-y: auto;
+
+    h3 {
+      font-size: 1.1rem;
+      font-weight: bold;
+      margin-bottom: 1rem;
+    }
+
+    .categoria-opciones {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      margin-bottom: 1rem;
+
+      a {
+        cursor: pointer;
+        color: #1976d2;
+        font-weight: 500;
+        text-decoration: none;
+
+        &.activa {
+          font-weight: bold;
+          text-decoration: underline;
+        }
+      }
+    }
+
+    .busqueda {
+      width: 100%;
+    }
+  }
+
+  .productos {
+    flex: 1;
+
+    .categoria-bloque {
+      margin-bottom: 3rem;
+
+      .categoria-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 0.5rem;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+
+        .categoria-titulo {
+          font-size: 1.4rem;
+          font-weight: 600;
+          color: #000;
+          padding: 8px 16px;
+          border-left: 6px solid var(--categoria-color);
+          border-radius: 4px;
+          text-decoration: none;
+          background-color: transparent;
+
+          &:hover {
+            text-decoration: none;
+            color: #1565c0;
+          }
+        }
+
+        .ver-mas-btn {
+          font-size: 0.85rem;
+          padding: 4px 12px;
+          height: auto;
+          display: flex;
+          align-items: center;
+          gap: 4px;
+        }
+      }
+
+      // Tarjetas como slider
+      .tarjetas-scroll {
+        display: flex;
+        gap: 1.2rem;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        padding-bottom: 0.5rem;
+
+        app-product-card {
+          min-width: 260px;
+          flex: 0 0 auto;
+          scroll-snap-align: start;
+        }
+
+        &::-webkit-scrollbar {
+          height: 8px;
+        }
+
+        &::-webkit-scrollbar-thumb {
+          background-color: #ccc;
+          border-radius: 4px;
+        }
+
+        &::-webkit-scrollbar-track {
+          background-color: transparent;
+        }
+      }
+
+      // Tarjetas en grilla normal
+      .tarjetas-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+        gap: 1.2rem;
+
+        app-product-card {
+          width: 100%;
+        }
+      }
+    }
+  }
+
+  .no-result {
+    font-size: 1rem;
+    color: #999;
+    padding: 2rem;
+  }
+
+  // RESPONSIVE DESIGN
+  @media (max-width: 768px) {
+    flex-direction: column;
+
+    .filtro {
+      position: relative;
+      width: 100%;
+      max-height: none;
+      box-shadow: none;
+      border: 1px solid #eee;
+    }
+
+    .productos {
+      .categoria-bloque {
+        .tarjetas-grid,
+        .tarjetas-scroll {
+          flex-direction: column;
+          overflow-x: visible;
+        }
+
+        app-product-card {
+          min-width: 100%;
+        }
+      }
+    }
+  }
+}

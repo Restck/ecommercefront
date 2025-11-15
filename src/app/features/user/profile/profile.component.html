@@ -1,0 +1,30 @@
+<div class="profile-container">
+  <mat-card class="profile-card">
+    <h2>Mi Perfil</h2>
+
+    <form [formGroup]="form" (ngSubmit)="guardarCambios()">
+      <!-- Nombre -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Nombre</mat-label>
+        <input matInput formControlName="nombre" placeholder="Tu nombre" />
+      </mat-form-field>
+
+      <!-- Correo (solo lectura) -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Correo electrónico</mat-label>
+        <input matInput [readonly]="true" formControlName="correo" />
+      </mat-form-field>
+
+      <!-- Nueva contraseña -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Nueva contraseña</mat-label>
+        <input matInput formControlName="contrasena" type="password" placeholder="Deja en blanco si no deseas cambiarla" />
+      </mat-form-field>
+
+      <!-- Botón guardar -->
+      <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">
+        <mat-icon>save</mat-icon> Guardar cambios
+      </button>
+    </form>
+  </mat-card>
+</div>

@@ -1,0 +1,28 @@
+<h2 mat-dialog-title>Resumen del Pedido</h2>
+
+<mat-dialog-content *ngIf="data?.pedido">
+  <div class="pedido-info">
+    <p><strong>Cliente:</strong> {{ data.pedido.cliente?.nombre || 'Sin nombre' }}</p>
+    <p><strong>Fecha:</strong> {{ data.pedido.fecha | date: 'short' }}</p>
+    <p><strong>Estado:</strong> {{ data.pedido.estado }}</p>
+    <p><strong>Total:</strong> ${{ data.pedido.total | number:'1.0-0' }}</p>
+  </div>
+
+  <div class="productos-container">
+    <h3>Productos</h3>
+    <div class="producto-card" *ngFor="let item of data.pedido.productos">
+      <img [src]="item.producto?.imagen" alt="imagen producto" class="producto-imagen" *ngIf="item.producto?.imagen" />
+      <div class="producto-detalle">
+        <p><strong>Nombre:</strong> {{ item.producto?.nombre }}</p>
+        <p><strong>Precio:</strong> ${{ item.producto?.precio | number:'1.0-0' }}</p>
+        <p><strong>Cantidad:</strong> {{ item.cantidad }}</p>
+        <p><strong>Subtotal:</strong> ${{ item.producto?.precio * item.cantidad | number:'1.0-0' }}</p>
+      </div>
+    </div>
+  </div>
+
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cerrar</button>
+</mat-dialog-actions>

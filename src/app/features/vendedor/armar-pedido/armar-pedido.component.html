@@ -1,0 +1,144 @@
+<div class="contenedor">
+  <!-- 🔎 Barra de búsqueda y filtro -->
+  <div class="buscador-filtros">
+    <input
+      type="text"
+      [(ngModel)]="buscador"
+      placeholder="Buscar producto..."
+    />
+    <select [(ngModel)]="categoriaSeleccionada">
+      <option value="">Todas las categorías</option>
+      <option *ngFor="let categoria of categorias" [value]="categoria._id">
+        {{ categoria.nombre }}
+      </option>
+    </select>
+  </div>
+
+  <!-- 📦 Lista de productos agrupados -->
+  <div class="productos">
+    <div *ngFor="let grupo of productosFiltradosPorCategoria">
+      <h2 class="titulo-categoria">{{ grupo.categoria }}</h2>
+
+      <div class="lista-categoria">
+        <mat-card *ngFor="let producto of grupo.productos" class="producto">
+          <img [src]="producto.imagen" alt="{{ producto.nombre }}" />
+          <h3>{{ producto.nombre }}</h3>
+          <p><strong>${{ producto.precio }}</strong></p>
+
+          <!-- Mostrar stock -->
+          <p *ngIf="producto.stock > 0" class="stock-disponible">
+            Stock: {{ producto.stock }}
+          </p>
+          <p *ngIf="producto.stock === 0" class="stock-agotado">🚫 Agotado</p>
+
+          <!-- Botón según stock -->
+          <button
+            mat-raised-button
+            color="primary"
+            (click)="agregarAlCarrito(producto)"
+            [disabled]="producto.stock < 12"
+          >
+            {{ producto.stock >= 12 ? 'Agregar (mín. 12)' : 'Sin stock suficiente' }}
+          </button>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+
+  <!-- 🛒 Carrito -->
+  <div class="carrito">
+    <h2>Carrito</h2>
+    <div *ngIf="carrito.length === 0">No hay productos en el carrito</div>
+
+    <div *ngFor="let item of carrito" class="carrito-item">
+      <span>{{ item.nombre }}</span>
+
+      <input
+        type="number"
+        [value]="item.cantidad"
+        (change)="cambiarCantidad(item, $event)"
+        [max]="item.stock"
+        min="12"
+      />
+
+      <span>${{ item.precio * item.cantidad }}</span>
+
+      <button mat-icon-button color="warn" (click)="eliminar(item)">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </div>
+
+    <h3 *ngIf="carrito.length > 0">Total: ${{ total }}</h3>
+
+    <!-- Botón para abrir el modal -->
+    <button
+      *ngIf="carrito.length > 0"
+      mat-raised-button
+      color="accent"
+      (click)="abrirModal()"
+    >
+      Finalizar Pedido
+    </button>
+  </div>
+</div>
+
+<!-- 📝 Modal con formulario -->
+<div class="modal-backdrop" *ngIf="mostrarModal">
+  <div class="modal">
+    <h2>Completar Pedido</h2>
+
+    <mat-form-field appearance="outline" class="input-full">
+      <mat-label>Nombre</mat-label>
+      <input matInput [(ngModel)]="nombre" required />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="input-full">
+      <mat-label>Teléfono</mat-label>
+      <input
+        matInput
+        type="tel"
+        [(ngModel)]="telefono"
+        required
+        pattern="[0-9]{7,12}"
+        placeholder="Ej: 3001234567"
+      />
+      <mat-hint>Debe tener entre 7 y 12 dígitos</mat-hint>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="input-full">
+      <mat-label>Ciudad</mat-label>
+      <input matInput [(ngModel)]="ciudad" required />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="input-full">
+      <mat-label>Dirección</mat-label>
+      <input matInput [(ngModel)]="direccion" required />
+    </mat-form-field>
+
+    <!-- ✍️ Indicaciones opcionales -->
+    <mat-form-field appearance="outline" class="input-full">
+      <mat-label>Indicaciones (opcional)</mat-label>
+      <textarea
+        matInput
+        [(ngModel)]="indicaciones"
+        rows="3"
+        placeholder="Ej: Entregar en portería, llamar antes..."
+      ></textarea>
+    </mat-form-field>
+
+    <!-- 🔐 Método de pago fijo -->
+    <mat-form-field appearance="outline" class="input-full">
+      <mat-label>Método de Pago</mat-label>
+      <input matInput value="Nequi" disabled />
+    </mat-form-field>
+
+    <div class="modal-acciones">
+      <button mat-raised-button color="warn" (click)="cerrarModal()">
+        Cancelar
+      </button>
+      <button mat-raised-button color="primary" (click)="confirmarPedido()">
+        Confirmar Pedido
+      </button>
+    </div>
+  </div>
+</div>

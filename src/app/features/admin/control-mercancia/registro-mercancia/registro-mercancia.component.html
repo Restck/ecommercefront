@@ -1,0 +1,166 @@
+<mat-card class="registro-mercancia-card">
+  <mat-card-content>
+    <form [formGroup]="productoForm" class="form-horizontal">
+
+      <!-- LADO IZQUIERDO -->
+      <div class="form-left">
+        <!-- Nombre -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Nombre</mat-label>
+          <input matInput formControlName="nombre" required />
+          <mat-error *ngIf="productoForm.get('nombre')?.hasError('required')">
+            El nombre es obligatorio
+          </mat-error>
+        </mat-form-field>
+
+        <!-- Descripción -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Descripción</mat-label>
+          <textarea matInput rows="2" formControlName="descripcion" required></textarea>
+          <mat-error *ngIf="productoForm.get('descripcion')?.hasError('required')">
+            La descripción es obligatoria
+          </mat-error>
+        </mat-form-field>
+
+        <!-- Precio -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Precio</mat-label>
+          <input matInput type="number" formControlName="precio" min="0" step="0.01" required />
+          <mat-error *ngIf="productoForm.get('precio')?.invalid">Precio inválido</mat-error>
+        </mat-form-field>
+
+        <!-- Destino -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Destino</mat-label>
+          <mat-select formControlName="destino" (selectionChange)="onDestinoChange($event.value)" required>
+            <mat-option value="stock">Stock</mat-option>
+            <mat-option value="bodega">Bodega</mat-option>
+          </mat-select>
+          <mat-error *ngIf="productoForm.get('destino')?.hasError('required')">
+            Debes seleccionar un destino
+          </mat-error>
+        </mat-form-field>
+
+        <!-- Cantidad dinámica -->
+        <ng-container *ngIf="productoForm.get('destino')?.value === 'stock'">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Cantidad en Stock</mat-label>
+            <input matInput type="number" formControlName="stock" min="1" step="1" required />
+            <mat-error *ngIf="productoForm.get('stock')?.invalid">Debe ser mayor a 0</mat-error>
+          </mat-form-field>
+        </ng-container>
+
+        <ng-container *ngIf="productoForm.get('destino')?.value === 'bodega'">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Cantidad en Bodega</mat-label>
+            <input matInput type="number" formControlName="cantidadBodega" min="1" step="1" required />
+            <mat-error *ngIf="productoForm.get('cantidadBodega')?.invalid">Debe ser mayor a 0</mat-error>
+          </mat-form-field>
+        </ng-container>
+
+        <!-- Categoría + botón -->
+        <div class="field-with-button">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Categoría</mat-label>
+            <mat-select formControlName="categoria" required>
+              <mat-option *ngFor="let categoria of categorias" [value]="categoria._id">
+                {{ categoria.nombre }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <button mat-icon-button color="accent" class="side-button" type="button" (click)="abrirDialogCategoria()">
+            <mat-icon>add</mat-icon>
+          </button>
+        </div>
+
+        <!-- Proveedor + botón -->
+        <div class="field-with-button">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Proveedor</mat-label>
+            <mat-select formControlName="proveedor" required>
+              <mat-option *ngFor="let proveedor of proveedores" [value]="proveedor._id">
+                {{ proveedor.nombre }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <button mat-icon-button color="accent" class="side-button" type="button" (click)="abrirDialogProveedor()">
+            <mat-icon>add</mat-icon>
+          </button>
+        </div>
+
+        <!-- Botón principal -->
+        <div class="acciones">
+          <button mat-raised-button color="primary" type="button" (click)="registrarProducto()">
+            Registrar Producto
+          </button>
+        </div>
+      </div>
+
+      <!-- LADO DERECHO (Imagen y carga) -->
+      <div class="form-right">
+        <div class="imagen-preview" *ngIf="imagenPreview; else placeholder">
+          <img [src]="imagenPreview" alt="Imagen seleccionada" />
+        </div>
+        <ng-template #placeholder>
+          <div class="imagen-placeholder">Sin imagen</div>
+        </ng-template>
+
+        <label class="upload-btn">
+          <mat-icon>cloud_upload</mat-icon>
+          Cargar imagen
+          <input type="file" accept="image/*" (change)="onImagenSeleccionada($event)" />
+        </label>
+
+      </div>
+
+    </form>
+  </mat-card-content>
+</mat-card>
+
+<!-- 📦 Modal Categoría -->
+<ng-template #dialogCategoria>
+  <div class="custom-dialog">
+    <h2>Agregar nueva categoría</h2>
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Nombre de la categoría</mat-label>
+      <input matInput [(ngModel)]="nuevaCategoria" name="nuevaCategoria" />
+    </mat-form-field>
+
+    <div class="dialog-actions">
+      <button mat-button mat-dialog-close class="cancelar-btn">Cancelar</button>
+      <button mat-flat-button color="primary" class="guardar-btn" (click)="guardarCategoria()">Guardar</button>
+    </div>
+  </div>
+</ng-template>
+
+<!-- 🏷️ Modal Proveedor -->
+<ng-template #dialogProveedor>
+  <div class="custom-dialog">
+    <h2>Agregar nuevo proveedor</h2>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Nombre del proveedor</mat-label>
+      <input matInput [(ngModel)]="nuevoProveedor.nombre" name="nombreProveedor" required />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Teléfono</mat-label>
+      <input matInput type="tel" [(ngModel)]="nuevoProveedor.telefono" name="telefonoProveedor" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Dirección</mat-label>
+      <textarea matInput rows="2" [(ngModel)]="nuevoProveedor.direccion" name="direccionProveedor"></textarea>
+    </mat-form-field>
+
+    <div class="dialog-actions">
+      <button mat-button mat-dialog-close class="cancelar-btn">Cancelar</button>
+      <button mat-flat-button color="primary" class="guardar-btn" (click)="guardarProveedor()"
+        [disabled]="!nuevoProveedor.nombre">
+        Guardar
+      </button>
+    </div>
+  </div>
+</ng-template>

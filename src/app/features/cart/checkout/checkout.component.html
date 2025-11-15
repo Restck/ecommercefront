@@ -1,0 +1,85 @@
+<div class="checkout-wrapper" [@fadeIn]>
+  <div class="checkout-container">
+
+    <!-- Formulario de envío -->
+    <mat-card class="checkout-card">
+      <h2>Información de envío</h2>
+
+      <!-- Nombre completo -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Nombre completo</mat-label>
+        <input matInput [(ngModel)]="nombre" name="nombre" required />
+      </mat-form-field>
+
+      <!-- Correo electrónico -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Correo electrónico</mat-label>
+        <input matInput [(ngModel)]="email" name="email" type="email" required />
+      </mat-form-field>
+
+      <!-- Teléfono (solo números) -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Teléfono</mat-label>
+        <input
+          matInput
+          type="tel"
+          pattern="[0-9]*"
+          inputmode="numeric"
+          maxlength="10"
+          [(ngModel)]="telefono"
+          name="telefono"
+          placeholder="Ej: 3001234567"
+          required
+        />
+      </mat-form-field>
+
+      <!-- Ciudad -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Ciudad</mat-label>
+        <input matInput [(ngModel)]="ciudad" name="ciudad" required />
+      </mat-form-field>
+
+      <!-- Dirección -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Dirección de envío</mat-label>
+        <input matInput [(ngModel)]="direccion" name="direccion" required />
+      </mat-form-field>
+
+      <!-- Indicaciones adicionales -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Indicaciones adicionales (opcional)</mat-label>
+        <textarea matInput rows="3" [(ngModel)]="indicaciones" name="indicaciones"></textarea>
+      </mat-form-field>
+
+      <!-- Nota informativa -->
+      <p class="nota-informativa">
+        💡 El pago se realiza escaneando el código QR de Nequi al finalizar el pedido.
+      </p>
+
+      <!-- Total -->
+      <div class="resumen">
+        <p>Total a pagar:</p>
+        <h3>$ {{ total | number: '1.0-0' }}</h3>
+      </div>
+
+      <!-- Botón continuar -->
+      <button mat-raised-button color="primary" class="btn-pago" (click)="procesarPago()">
+        <mat-icon>payment</mat-icon>
+        Continuar con el pago
+      </button>
+    </mat-card>
+
+    <!-- 🛒 Resumen de productos -->
+    <mat-card class="resumen-carrito">
+      <h3>🛒 Tu pedido</h3>
+      <div *ngFor="let item of carrito" class="producto">
+        <img [src]="item.producto.imagen" alt="img" />
+        <div class="detalle">
+          <strong>{{ item.producto.nombre }}</strong>
+          <small>{{ item.cantidad }} x ${{ item.producto.precio | number: '1.0-0' }}</small>
+        </div>
+      </div>
+    </mat-card>
+
+  </div>
+</div>

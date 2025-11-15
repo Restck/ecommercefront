@@ -1,0 +1,28 @@
+.detalle-pedido-card {
+  width: 600px;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 1rem;
+}
+
+.producto-item {
+  margin-bottom: 1rem;
+}
+
+.producto-card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.5rem;
+}
+
+.comprobante-img {
+  max-width: 100%;
+  height: auto;
+  margin-top: 1rem;
+}
+
+.acciones {
+  margin-top: 2rem;
+  text-align: right;
+}

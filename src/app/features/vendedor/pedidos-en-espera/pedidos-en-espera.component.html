@@ -1,0 +1,124 @@
+  <div class="pedidos-container">
+    <h2>📦 Mis Pedidos</h2>
+
+    <!-- 🔍 Buscador -->
+    <mat-form-field appearance="outline" class="search-box">
+      <mat-label>Buscar pedidos</mat-label>
+      <input
+        matInput
+        (keyup)="aplicarFiltro($event)"
+        placeholder="Buscar por cliente, estado o total"
+      />
+      <button
+        *ngIf="dataSource.filter"
+        matSuffix
+        mat-icon-button
+        (click)="limpiarFiltro()"
+      >
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
+
+    <!-- Loader -->
+    <div *ngIf="cargando" class="loader">
+      <mat-spinner diameter="40"></mat-spinner>
+      <p>Cargando pedidos...</p>
+    </div>
+
+    <!-- Error -->
+    <div *ngIf="error" class="error">
+      ⚠️ {{ error }}
+    </div>
+
+    <!-- Tabla de pedidos -->
+    <table
+      *ngIf="!cargando && pedidos.length > 0"
+      mat-table
+      [dataSource]="dataSource"
+      class="mat-elevation-z4 full-width"
+    >
+      <!-- Cliente -->
+      <ng-container matColumnDef="cliente">
+        <th mat-header-cell *matHeaderCellDef> Cliente </th>
+        <td mat-cell *matCellDef="let pedido">
+          👤 {{ getClienteNombre(pedido) }}
+        </td>
+      </ng-container>
+
+      <!-- Productos + botón modal -->
+      <ng-container matColumnDef="productos">
+        <th mat-header-cell *matHeaderCellDef> Productos </th>
+        <td mat-cell *matCellDef="let pedido">
+          <button
+            mat-stroked-button
+            color="primary"
+            (click)="verDetallesPedido(pedido)"
+          >
+            <mat-icon>list</mat-icon> Ver detalles
+          </button>
+        </td>
+      </ng-container>
+
+      <!-- Total -->
+      <ng-container matColumnDef="total">
+        <th mat-header-cell *matHeaderCellDef> Total </th>
+        <td mat-cell *matCellDef="let pedido">
+          💲 {{ pedido.total | number : '1.0-0' }}
+        </td>
+      </ng-container>
+
+      <!-- Estado (editable) -->
+      <ng-container matColumnDef="estado">
+        <th mat-header-cell *matHeaderCellDef> Estado </th>
+        <td mat-cell *matCellDef="let pedido">
+          <span
+            class="estado-label"
+            [ngClass]="{
+              'pendiente': pedido.estado === 'pendiente',
+              'en-proceso': pedido.estado === 'en proceso',
+              'completado': pedido.estado === 'completado',
+              'cancelado': pedido.estado === 'cancelado'
+            }"
+          >
+            {{ pedido.estado | titlecase }}
+          </span>
+        </td>
+      </ng-container>
+
+      <!-- Acciones -->
+      <ng-container matColumnDef="acciones">
+        <th mat-header-cell *matHeaderCellDef> Acciones </th>
+        <td mat-cell *matCellDef="let pedido">
+          <button
+            mat-icon-button
+            color="accent"
+            (click)="editarPedido(pedido)"
+            matTooltip="Editar pedido"
+          >
+            <mat-icon>edit</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <!-- Header y Rows -->
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+
+    <!-- 📑 Paginación -->
+    <mat-paginator
+      [length]="pedidos.length"
+      [pageSize]="5"
+      [pageSizeOptions]="[5, 10, 20]"
+      showFirstLastButtons
+    >
+    </mat-paginator>
+
+    <!-- Sin pedidos -->
+    <div
+      *ngIf="!cargando && pedidos.length === 0 && !error"
+      class="no-pedidos"
+    >
+      🙌 No tienes pedidos registrados.
+    </div>
+  </div>

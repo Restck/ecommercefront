@@ -1,0 +1,107 @@
+.admin-layout {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #f4f6f9;
+  font-family: 'Segoe UI', Roboto, sans-serif;
+
+  .section-title {
+  font-size: 0.9rem;
+  font-weight: bold;
+  color: #78909c;
+  margin: 12px 0 4px 8px;
+  text-transform: uppercase;
+}
+
+
+  .topbar {
+    height: 60px;
+    background-color: #263238;
+    color: #fff;
+    font-size: 1.4rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    padding: 0 24px;
+    border-bottom: 3px solid #00bcd4;
+
+    mat-icon {
+      margin-right: 12px;
+      color: #00bcd4;
+    }
+  }
+
+  .layout-body {
+    flex: 1;
+    display: flex;
+    padding: 20px;
+    gap: 20px;
+  }
+
+  .sidebar {
+    width: 240px;
+    background-color: #fff;
+    border-radius: 12px;
+    padding: 20px 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    display: flex;
+    flex-direction: column;
+
+    .nav-group {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+
+      a,
+      button {
+        display: flex;
+        align-items: center;
+        padding: 10px 14px;
+        border-radius: 8px;
+        text-decoration: none;
+        color: #37474f;
+        font-weight: 500;
+        background: none;
+        border: none;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-size: 15px;
+
+        mat-icon {
+          margin-right: 10px;
+          color: #00bcd4;
+          transition: transform 0.2s;
+        }
+
+        &:hover {
+          background-color: #e0f7fa;
+          color: #00796b;
+
+          mat-icon {
+            transform: scale(1.1);
+          }
+        }
+
+        &.active {
+          background-color: #b2ebf2;
+          color: #00796b;
+          font-weight: 600;
+        }
+      }
+
+      mat-divider {
+        margin: 16px 0;
+        background-color: #cfd8dc;
+      }
+    }
+  }
+
+  .content {
+    flex: 1;
+    background-color: #fff;
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    overflow-y: auto;
+  }
+}

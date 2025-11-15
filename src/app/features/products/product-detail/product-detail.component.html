@@ -1,0 +1,76 @@
+<div *ngIf="cargando" class="cargando">
+  <mat-spinner></mat-spinner>
+</div>
+
+<div *ngIf="!cargando && producto" class="detalle-wrapper">
+  <div class="producto-detalle-horizontal">
+
+    <!-- 📦 Card de imagen + descripción -->
+    <mat-card class="info-contenedor">
+      <div class="contenido-interno">
+        <div class="zona-imagen">
+          <img [src]="producto.imagen" alt="{{ producto.nombre }}" />
+        </div>
+        <div class="zona-texto">
+          <h1 class="nombre">{{ producto.nombre }}</h1>
+          <p class="categoria">{{ producto.categoria.nombre }}</p>
+          <p class="descripcion">{{ producto.descripcion }}</p>
+        </div>
+      </div>
+    </mat-card>
+
+    <!-- 🛒 Card para añadir al carrito -->
+    <mat-card class="zona-info">
+      <h2 class="precio">$ {{ producto.precio | number: '1.0-0' }}</h2>
+      <p class="stock">Stock disponible: {{ producto.stock }}</p>
+
+      <!-- Contador con input -->
+<!-- Contador con diseño mejorado -->
+<div class="contador-cantidad">
+  <button class="btn-contador"
+    (click)="decrementarCantidad()"
+    [disabled]="cantidadSeleccionada <= 12">
+    <mat-icon>remove</mat-icon>
+  </button>
+
+  <input
+    type="number"
+    min="12"
+    [max]="producto.stock"
+    [(ngModel)]="cantidadSeleccionada"
+    (change)="validarCantidad()"
+    class="input-cantidad"
+  />
+
+  <button class="btn-contador"
+    (click)="incrementarCantidad()"
+    [disabled]="cantidadSeleccionada >= producto.stock">
+    <mat-icon>add</mat-icon>
+  </button>
+</div>
+
+
+      <button mat-raised-button color="primary" class="btn-carrito"
+        (click)="agregarAlCarrito()"
+        [disabled]="producto.stock < 12">
+        <mat-icon>add_shopping_cart</mat-icon> Añadir al carrito
+      </button>
+
+      <button mat-stroked-button color="accent" class="btn-comprar-ahora mt-2"
+        (click)="comprarAhora()"
+        [disabled]="producto.stock < 12">
+        <mat-icon>flash_on</mat-icon> Comprar ahora
+      </button>
+    </mat-card>
+  </div>
+
+  <div class="recomendados">
+    <h2>Productos recomendados</h2>
+    <div class="tarjetas">
+      <app-product-card
+        *ngFor="let recomendado of recomendados"
+        [producto]="recomendado"
+      ></app-product-card>
+    </div>
+  </div>
+</div>

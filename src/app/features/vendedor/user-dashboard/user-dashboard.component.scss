@@ -1,0 +1,90 @@
+.dashboard-wrapper {
+  width: 100%;
+  padding: 1.5rem;
+  font-family: 'Poppins', sans-serif;
+  background-color: #f5f7fa;
+  min-height: 100vh;
+}
+
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+
+  h1 {
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: #333;
+  }
+
+  button {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+}
+
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+  font-size: 1.2rem;
+  color: #555;
+  margin-top: 3rem;
+
+  mat-icon {
+    animation: spin 1.2s linear infinite;
+  }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0); }
+  100% { transform: rotate(360deg); }
+}
+
+.dashboard-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.metric-card {
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+  background: #fff;
+  text-align: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+  }
+
+  .metric-top {
+    height: 90px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .metric-content {
+    padding: 1rem 0.8rem;
+
+    h2 {
+      font-size: 1.8rem;
+      margin: 0.2rem 0;
+      font-weight: 600;
+    }
+
+    p {
+      margin: 0;
+      color: #444;
+      font-size: 0.95rem;
+    }
+  }
+}

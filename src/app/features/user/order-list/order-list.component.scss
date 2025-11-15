@@ -1,0 +1,141 @@
+.mis-pedidos {
+  padding: 2rem;
+  background: linear-gradient(to right, #f7f9fc, #eef2f7);
+  border-radius: 1rem;
+  min-height: 100vh;
+
+  .header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1.5rem;
+
+    h2 {
+      font-size: 1.8rem;
+      color: #2c3e50;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    mat-icon {
+      font-size: 2rem;
+      color: #007bff;
+    }
+  }
+
+  .contenido-scroll {
+    max-height: calc(100vh - 200px);
+    overflow-y: auto;
+    padding-right: 0.5rem;
+    scroll-behavior: smooth;
+
+    &::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: rgba(0, 123, 255, 0.3);
+      border-radius: 4px;
+    }
+  }
+
+  .pedido-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .pedido-card {
+    border-radius: 1rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background: white;
+
+    &:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.12);
+    }
+
+    .pedido-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+
+      .pedido-id {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-weight: 500;
+        color: #34495e;
+      }
+
+      .estado {
+        padding: 0.3rem 0.7rem;
+        border-radius: 1rem;
+        font-size: 0.8rem;
+        font-weight: bold;
+        text-transform: uppercase;
+        color: white;
+
+        &.pendiente {
+          background-color: #f39c12;
+        }
+        &.enviado {
+          background-color: #3498db;
+        }
+        &.entregado {
+          background-color: #2ecc71;
+        }
+        &.cancelado {
+          background-color: #e74c3c;
+        }
+      }
+    }
+
+    .pedido-detalle {
+      font-size: 0.95rem;
+      color: #555;
+      margin-bottom: 1rem;
+
+      p {
+        margin: 0.2rem 0;
+      }
+    }
+
+    .pedido-acciones {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+
+      button, a {
+        flex: 1;
+        min-width: 120px;
+        text-align: center;
+      }
+
+      a {
+        text-decoration: none;
+      }
+    }
+  }
+
+  .mensaje-vacio {
+    text-align: center;
+    font-size: 1.2rem;
+    color: #888;
+    margin-top: 2rem;
+  }
+
+  .spinner {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+  }
+}

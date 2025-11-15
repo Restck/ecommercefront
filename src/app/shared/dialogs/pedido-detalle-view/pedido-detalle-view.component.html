@@ -1,0 +1,85 @@
+<div class="detalle-container" *ngIf="!cargando; else cargandoTpl">
+  <h2>
+    <mat-icon color="primary">receipt_long</mat-icon>
+    Detalle del Pedido
+  </h2>
+
+  <!-- Información general -->
+  <div class="info-section">
+    <div class="info-item">
+      <strong>ID Pedido:</strong>
+      <span>{{ pedido._id }}</span>
+    </div>
+
+    <div class="info-item">
+      <strong>Cliente:</strong>
+      <span>{{ getClienteNombre() }}</span>
+    </div>
+
+    <div class="info-item">
+      <strong>Dirección:</strong>
+      <span>{{ getDireccionCliente() }}</span>
+    </div>
+
+    <div class="info-item">
+      <strong>Fecha:</strong>
+      <span>{{ pedido.fecha | date: 'medium' }}</span>
+    </div>
+
+    <div class="info-item">
+      <strong>Estado:</strong>
+      <span class="estado" [ngClass]="pedido.estado">
+        {{ pedido.estado | titlecase }}
+      </span>
+    </div>
+  </div>
+
+  <!-- Tabla de productos -->
+  <div class="productos-section" *ngIf="pedido.productos?.length; else sinProductos">
+    <h3>🛒 Productos</h3>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Producto</th>
+          <th>Cantidad</th>
+          <th>Precio Unitario</th>
+          <th>Subtotal</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of pedido.productos">
+          <td>{{ item.producto.nombre || 'Sin nombre' }}</td>
+          <td>{{ item.cantidad }}</td>
+          <td>{{ item.producto.precio | currency:'USD':'symbol':'1.0-0' }}</td>
+          <td>{{ getSubtotal(item) | currency:'USD':'symbol':'1.0-0' }}</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="total">
+      <strong>Total:</strong>
+      <span>{{ getTotal() | currency:'USD':'symbol':'1.0-0' }}</span>
+    </div>
+  </div>
+
+  <!-- Sin productos -->
+  <ng-template #sinProductos>
+    <p class="sin-productos">🧾 Este pedido no contiene productos.</p>
+  </ng-template>
+
+  <!-- Botón cerrar -->
+  <div class="acciones">
+    <button mat-raised-button color="primary" (click)="cerrar()">
+      <mat-icon>close</mat-icon> Cerrar
+    </button>
+  </div>
+</div>
+
+<!-- Loader -->
+<ng-template #cargandoTpl>
+  <div class="loading-container">
+    <mat-spinner diameter="48"></mat-spinner>
+    <p>Cargando detalles del pedido...</p>
+  </div>
+</ng-template>

@@ -1,0 +1,34 @@
+<mat-card>
+  <img [src]="producto.imagen" alt="{{ producto.nombre }}" />
+
+  <div class="card-content">
+    <div class="nombre">{{ producto.nombre }}</div>
+    <div class="categoria">{{ producto.categoria.nombre }}</div>
+    <div class="descripcion">{{ producto.descripcion }}</div>
+
+    <div
+      class="stock"
+      [ngClass]="{
+        'stock-bajo': producto.stock > 0 && producto.stock <= 20,
+        'stock-alto': producto.stock > 20,
+        'sin-stock': producto.stock === 0
+      }"
+    >
+      Stock:
+      {{ producto.stock === 0 ? 'Agotado' : producto.stock }}
+    </div>
+
+    <div class="precio">$ {{ producto.precio }}</div>
+
+    <div class="acciones">
+      <button
+        mat-raised-button
+        [disabled]="producto.stock === 0"
+        [color]="producto.stock <= 10 ? 'accent' : 'primary'"
+        [routerLink]="['/productos', producto._id]"
+      >
+        <mat-icon>add_shopping_cart</mat-icon> Agregar
+      </button>
+    </div>
+  </div>
+</mat-card>

@@ -1,0 +1,81 @@
+<div class="admin-layout">
+  <!-- Topbar -->
+  <header class="topbar">
+    <mat-icon>admin_panel_settings</mat-icon>
+    <span>Panel de Administración</span>
+  </header>
+
+  <div class="layout-body">
+    <!-- Sidebar -->
+    <nav class="sidebar">
+      <div class="nav-group">
+        <!-- SECCIÓN PRINCIPAL -->
+        <a routerLink="/admin" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+          <mat-icon>dashboard</mat-icon>
+          <span>Dashboard</span>
+        </a>
+
+        <a routerLink="/admin/usuarios" routerLinkActive="active">
+          <mat-icon>group</mat-icon>
+          <span>Usuarios</span>
+        </a>
+
+        <!-- ✅ Menú desplegable de Pedidos -->
+        <div class="submenu">
+          <button class="submenu-btn" (click)="togglePedidosMenu()">
+            <mat-icon>shopping_cart</mat-icon>
+            <span>Pedidos</span>
+            <mat-icon class="arrow" [class.open]="pedidosMenuAbierto">expand_more</mat-icon>
+          </button>
+
+          <div class="submenu-content" *ngIf="pedidosMenuAbierto">
+            <a routerLink="/admin/pedidos" [queryParams]="{ tipo: 'cliente' }" routerLinkActive="active">
+              <mat-icon>person</mat-icon>
+              <span>Pedidos de Clientes</span>
+            </a>
+
+            <a routerLink="/admin/pedidos" [queryParams]="{ tipo: 'vendedor' }" routerLinkActive="active">
+              <mat-icon>storefront</mat-icon>
+              <span>Pedidos de Vendedores</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- SECCIÓN MERCANCÍA -->
+        <mat-divider></mat-divider>
+        <span class="section-title">Mercancía</span>
+
+        <a routerLink="/admin/control-mercancia" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+          <mat-icon>warehouse</mat-icon>
+          <span>Control de Mercancía</span>
+        </a>
+
+        <!-- SECCIÓN PRODUCTOS -->
+        <mat-divider></mat-divider>
+        <span class="section-title">Productos</span>
+
+        <a routerLink="/admin/productos" routerLinkActive="active">
+          <mat-icon>inventory_2</mat-icon>
+          <span>Lista de Productos</span>
+        </a>
+
+        <a routerLink="/admin/productos/nuevo" routerLinkActive="active">
+          <mat-icon>add_box</mat-icon>
+          <span>Nuevo Producto</span>
+        </a>
+
+        <!-- CERRAR SESIÓN -->
+        <mat-divider></mat-divider>
+        <button (click)="auth.logout()" class="logout-btn">
+          <mat-icon>logout</mat-icon>
+          <span>Cerrar sesión</span>
+        </button>
+      </div>
+    </nav>
+
+    <!-- CONTENIDO PRINCIPAL -->
+    <main class="content">
+      <router-outlet></router-outlet>
+    </main>
+  </div>
+</div>

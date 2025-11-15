@@ -1,0 +1,38 @@
+<div class="dashboard-container">
+  <div class="stats">
+    <mat-card
+      class="stat-card blue"
+      *ngIf="productos !== null"
+      [@cardAnim]>
+      <mat-icon>inventory_2</mat-icon>
+      <div class="stat-info">
+        <h2>Productos</h2>
+        <p>{{ productos }}</p>
+      </div>
+    </mat-card>
+
+    <mat-card class="stat-card green" [@cardAnim]>
+      <mat-icon>shopping_cart</mat-icon>
+      <div class="stat-info">
+        <h2>Pedidos</h2>
+        <p>{{ pedidos }}</p>
+      </div>
+    </mat-card>
+
+    <mat-card class="stat-card yellow" [@cardAnim]>
+      <mat-icon>group</mat-icon>
+      <div class="stat-info">
+        <h2>Clientes</h2>
+        <p>{{ usuarios }}</p>
+      </div>
+    </mat-card>
+
+    <mat-card class="stat-card purple" [@cardAnim]>
+      <mat-icon>attach_money</mat-icon>
+      <div class="stat-info">
+        <h2>Ingresos</h2>
+        <p>{{ formatCurrency(ingresos) }}</p>
+      </div>
+    </mat-card>
+  </div>
+</div>

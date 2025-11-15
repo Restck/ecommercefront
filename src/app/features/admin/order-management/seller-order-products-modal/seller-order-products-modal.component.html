@@ -1,0 +1,67 @@
+<div class="pedido-modal-container">
+  <!-- HEADER -->
+  <div class="modal-header">
+    <div class="header-left">
+      <h2>
+        <mat-icon>receipt_long</mat-icon>
+        Detalle del Pedido
+      </h2>
+      <p class="pedido-id">ID: {{ order?._id }}</p>
+      <p class="pedido-fecha">
+        Fecha: {{ order?.fecha | date: 'short' }}
+      </p>
+    </div>
+    <button class="close-btn" (click)="cerrar()">✖</button>
+  </div>
+
+  <!-- PRODUCTOS -->
+  <div class="productos-section">
+    <h3>🛍 Productos incluidos</h3>
+
+    <div class="productos-table-wrapper" *ngIf="order?.productos?.length > 0; else sinProductos">
+      <table class="productos-table">
+        <thead>
+          <tr>
+            <th>Imagen</th>
+            <th>Producto</th>
+            <th>Cantidad</th>
+            <th>Precio Unitario</th>
+            <th>Subtotal</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr *ngFor="let prod of order.productos">
+            <td class="img-cell">
+              <img
+                [src]="prod?.producto?.imagen || 'assets/img/no-image.png'"
+                alt="{{ prod?.producto?.nombre }}"
+              />
+            </td>
+            <td>{{ prod?.producto?.nombre || 'Sin nombre' }}</td>
+            <td>{{ prod?.cantidad }}</td>
+            <td>{{ prod?.producto?.precio | currency: 'COP' }}</td>
+            <td>{{ (prod?.producto?.precio * prod?.cantidad) | currency: 'COP' }}</td>
+          </tr>
+        </tbody>
+
+        <!-- TOTAL -->
+        <tfoot>
+          <tr class="total-row">
+            <td colspan="4" class="total-label">Total del Pedido:</td>
+            <td class="total-value">{{ totalPedido | currency: 'COP' }}</td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+
+    <ng-template #sinProductos>
+      <p class="no-productos">Este pedido no tiene productos registrados.</p>
+    </ng-template>
+  </div>
+
+  <!-- ACCIÓN -->
+  <div class="modal-actions">
+    <button class="btn-cerrar" (click)="cerrar()">Cerrar</button>
+  </div>
+</div>

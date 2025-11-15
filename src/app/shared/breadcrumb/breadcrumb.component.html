@@ -1,0 +1,25 @@
+<nav class="breadcrumb-wrapper">
+  <div class="breadcrumb-track">
+    <a class="breadcrumb-link" [routerLink]="['/']">
+      <mat-icon class="home-icon">home</mat-icon>
+      <span>Inicio</span>
+    </a>
+
+    <ng-container *ngIf="breadcrumbs.length > 0; else noCrumbs">
+      <ng-container *ngFor="let breadcrumb of breadcrumbs; let last = last">
+        <mat-icon class="breadcrumb-separator">chevron_right</mat-icon>
+        <ng-container *ngIf="!last; else activeCrumb">
+          <a class="breadcrumb-link" [routerLink]="breadcrumb.url">
+            {{ breadcrumb.label }}
+          </a>
+        </ng-container>
+        <ng-template #activeCrumb>
+          <span class="breadcrumb-active">{{ breadcrumb.label }}</span>
+        </ng-template>
+      </ng-container>
+    </ng-container>
+
+    <ng-template #noCrumbs>
+    </ng-template>
+  </div>
+</nav>

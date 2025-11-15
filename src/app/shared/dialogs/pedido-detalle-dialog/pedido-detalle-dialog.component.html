@@ -1,0 +1,28 @@
+<mat-card class="detalle-pedido-card">
+  <h2>Detalle del Pedido</h2>
+
+  <div *ngFor="let item of data.productos" class="producto-item">
+    <mat-card class="producto-card">
+      <img [src]="item.producto.imagen" alt="{{ item.producto.nombre }}" width="100" />
+      <div class="info">
+        <p><strong>Producto:</strong> {{ item.producto.nombre }}</p>
+        <p><strong>Cantidad:</strong> {{ item.cantidad }}</p>
+        <p><strong>Precio:</strong> ${{ item.producto.precio }}</p>
+      </div>
+    </mat-card>
+  </div>
+
+  <p><strong>Total:</strong> ${{ data.total }}</p>
+  <p><strong>Teléfono:</strong> {{ data.telefono }}</p>
+  <p><strong>Ciudad:</strong> {{ data.ciudad }}</p>
+  <p><strong>Método de Pago:</strong> {{ data.metodoPago }}</p>
+
+  <div *ngIf="data.comprobante">
+    <p><strong>Comprobante:</strong></p>
+    <img [src]="data.comprobante" alt="Comprobante de pago" class="comprobante-img" />
+  </div>
+
+  <div class="acciones">
+    <button mat-button (click)="cerrar()">Cerrar</button>
+  </div>
+</mat-card>
