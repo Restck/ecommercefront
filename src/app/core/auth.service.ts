@@ -1,10 +1,13 @@
 import { Injectable, signal } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { environment } from '../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  private apiUrl = 'http://localhost:5000/api/auth';
+
+  // 👉 Ahora usa environment.apiUrl
+  private apiUrl = `${environment.apiUrl}/api/auth`;
 
   // Signals reactivas
   isLoggedIn = signal(false);
@@ -30,7 +33,7 @@ export class AuthService {
     return this.http.post<any>(`${this.apiUrl}/register`, data);
   }
 
-  // 💾 Guardar sesión (token + rol + nombre + id)
+  // 💾 Guardar sesión
   guardarSesion(token: string, rol: string, nombre: string, userId: string) {
     localStorage.setItem('token', token);
     localStorage.setItem('rol', rol);
@@ -44,12 +47,9 @@ export class AuthService {
     this.nombreUsuario.set(nombre);
   }
 
-  // 🚪 Cerrar sesión
+  // 🚪 Logout
   logout() {
-    localStorage.removeItem('token');
-    localStorage.removeItem('rol');
-    localStorage.removeItem('nombre');
-    localStorage.removeItem('userId');
+    localStorage.clear();
 
     this.isLoggedIn.set(false);
     this.isAdminSignal.set(false);
@@ -60,7 +60,7 @@ export class AuthService {
     this.router.navigate(['/login']);
   }
 
-  // ♻️ Restaurar sesión desde localStorage
+  // ♻️ Restaurar sesión
   private restoreSession() {
     const token = localStorage.getItem('token');
     const rol = localStorage.getItem('rol');
@@ -79,41 +79,24 @@ export class AuthService {
   // 🧩 Actualizar perfil
   actualizarPerfil(datos: any) {
     const token = this.getToken();
-    return this.http.put<any>(
-      `${this.apiUrl}/actualizar-perfil`,
-      datos,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      }
-    ).pipe(res => {
-      // Actualiza nombre globalmente al cambiar perfil
-      this.nombreUsuario.set(datos.nombre);
-      localStorage.setItem('nombre', datos.nombre);
-      return res;
-    });
+
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+
+    return this.http.put<any>(`${this.apiUrl}/actualizar-perfil`, datos, { headers })
+      .pipe(res => {
+        this.nombreUsuario.set(datos.nombre);
+        localStorage.setItem('nombre', datos.nombre);
+        return res;
+      });
   }
 
   // 📦 Getters
-  getToken(): string | null {
-    return localStorage.getItem('token');
-  }
+  getToken() { return localStorage.getItem('token'); }
+  getRol() { return localStorage.getItem('rol'); }
+  getNombre() { return localStorage.getItem('nombre'); }
+  getUserId() { return localStorage.getItem('userId'); }
 
-  getRol(): string | null {
-    return localStorage.getItem('rol');
-  }
-
-  getNombre(): string | null {
-    return localStorage.getItem('nombre');
-  }
-
-  getUserId(): string | null {
-    return localStorage.getItem('userId');
-  }
-
-  /** ✅ Devuelve todos los datos necesarios del usuario */
-  getUser(): { _id: string | null, rol: string | null, token: string | null, nombre: string | null } {
+  getUser() {
     return {
       _id: this.getUserId(),
       rol: this.getRol(),
@@ -122,16 +105,8 @@ export class AuthService {
     };
   }
 
-  // 🔍 Verificación de roles
-  isAdmin(): boolean {
-    return this.getRol() === 'admin';
-  }
-
-  isVendedor(): boolean {
-    return this.getRol() === 'vendedor';
-  }
-
-  isCliente(): boolean {
-    return this.getRol() === 'cliente';
-  }
+  // 🔍 Roles
+  isAdmin() { return this.getRol() === 'admin'; }
+  isVendedor() { return this.getRol() === 'vendedor'; }
+  isCliente() { return this.getRol() === 'cliente'; }
 }

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of, map, catchError, BehaviorSubject } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 export interface Categoria {
   _id: string;
@@ -46,9 +47,13 @@ export interface Producto {
 
 @Injectable({ providedIn: 'root' })
 export class ProductoService {
-  private apiUrl = 'http://localhost:5000/api/productos';
-  private apiCategorias = 'http://localhost:5000/api/categorias';
-  private apiProveedores = 'http://localhost:5000/api/proveedores';
+
+  // ===========================
+  // 🔗 BASE URL DESDE ENV
+  // ===========================
+  private apiUrl = `${environment.apiUrl}/productos`;
+  private apiCategorias = `${environment.apiUrl}/categorias`;
+  private apiProveedores = `${environment.apiUrl}/proveedores`;
 
   private productosActualizados = new BehaviorSubject<boolean>(false);
   productosActualizados$ = this.productosActualizados.asObservable();
@@ -59,10 +64,9 @@ export class ProductoService {
         HELPERS
   =========================== */
 
-  /** 📌 Retorna la URL completa del archivo de imagen */
   getImagenUrl(nombreArchivo: string | undefined): string {
     if (!nombreArchivo) return 'assets/img/no-image.png';
-    return `http://localhost:5000/uploads/productos/${nombreArchivo}`;
+    return `${environment.apiUrl}/uploads/productos/${nombreArchivo}`;
   }
 
   /* ===========================
@@ -145,7 +149,7 @@ export class ProductoService {
   }
 
   /* ===========================
-      MOVIMIENTOS DE INVENTARIO
+      MOVIMIENTOS
   =========================== */
 
   actualizarDestino(id: string, destino: string, cantidad?: number): Observable<Producto> {

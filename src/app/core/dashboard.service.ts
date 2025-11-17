@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, timer, switchMap } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 export interface DashboardStats {
   productos: number;
@@ -11,7 +12,7 @@ export interface DashboardStats {
 
 @Injectable({ providedIn: 'root' })
 export class DashboardService {
-  private url = 'http://localhost:5000/api/dashboard';
+  private url = `${environment.apiUrl}/dashboard`;
 
   constructor(private http: HttpClient) {}
 

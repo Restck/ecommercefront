@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { AuthService } from './auth.service';
+import { environment } from '../../environments/environment';
 
 // ======================
 // 📦 Interfaces
@@ -57,7 +58,9 @@ export interface Order {
 // ======================
 @Injectable({ providedIn: 'root' })
 export class OrderService {
-  private readonly apiUrl = 'http://localhost:5000/api/ordenes';
+
+  // 🔗 Ruta base actualizada con environment
+  private readonly apiUrl = `${environment.apiUrl}/ordenes`;
 
   constructor(
     private http: HttpClient,
@@ -75,7 +78,7 @@ export class OrderService {
   // 🛒 Crear nuevo pedido (cliente)
   crearPedido(pedido: CrearPedidoDTO): Observable<{ mensaje: string; pedido: Order }> {
     return this.http.post<{ mensaje: string; pedido: Order }>(
-      `${this.apiUrl}`,
+      this.apiUrl,
       pedido,
       { headers: this.getAuthHeaders().set('Content-Type', 'application/json') }
     );
@@ -111,14 +114,14 @@ export class OrderService {
   // 👤 Obtener pedidos del cliente logueado
   getMisPedidos(): Observable<Order[]> {
     return this.http.get<Order[]>(`${this.apiUrl}/mis`, {
-      headers: this.getAuthHeaders(),
+      headers: this.getAuthHeaders()
     });
   }
 
   // 🛍️ Pedidos vendidos por el vendedor logueado
   getPedidosVendedor(): Observable<Order[]> {
     return this.http.get<Order[]>(`${this.apiUrl}/mis-vendidos`, {
-      headers: this.getAuthHeaders(),
+      headers: this.getAuthHeaders()
     });
   }
 

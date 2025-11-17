@@ -1,8 +1,8 @@
 // archivo: src/app/core/usuario.service.ts
-
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http'; // <-- Asegúrate de importar HttpHeaders
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 export interface Usuario {
   _id: string;
@@ -13,22 +13,37 @@ export interface Usuario {
 
 @Injectable({ providedIn: 'root' })
 export class UsuarioService {
-  private apiUrl = 'http://localhost:5000/api/usuarios';
+
+  private apiUrl = `${environment.apiUrl}/usuarios`;
 
   constructor(private http: HttpClient) {}
 
-  // Método que debes modificar para enviar el token
-  obtenerUsuarios(): Observable<Usuario[]> {
-    const token = localStorage.getItem('token'); // Obtén el token
-    const headers = token ? new HttpHeaders().set('Authorization', `Bearer ${token}`) : undefined;
-    
-    return this.http.get<Usuario[]>(this.apiUrl, { headers }); // <-- Aquí pasas los headers con el token
+  // 🔐 Obtener token con headers
+  private getAuthHeaders(): HttpHeaders {
+    const token = localStorage.getItem('token') || '';
+    return new HttpHeaders().set('Authorization', `Bearer ${token}`);
   }
 
-  // Método actualizarRol ya modificado
-  actualizarRol(id: string, nuevoRol: 'admin' | 'cliente' | 'vendedor'): Observable<Usuario> {
-    const token = localStorage.getItem('token');
-    const headers = token ? new HttpHeaders().set('Authorization', `Bearer ${token}`) : undefined;
-    return this.http.put<Usuario>(`${this.apiUrl}/${id}/rol`, { rol: nuevoRol }, { headers });
+  // ===========================
+  // 👥 Obtener lista de usuarios
+  // ===========================
+  obtenerUsuarios(): Observable<Usuario[]> {
+    return this.http.get<Usuario[]>(this.apiUrl, {
+      headers: this.getAuthHeaders()
+    });
+  }
+
+  // ===========================
+  // 🔄 Actualizar rol del usuario
+  // ===========================
+  actualizarRol(
+    id: string,
+    nuevoRol: 'admin' | 'cliente' | 'vendedor'
+  ): Observable<Usuario> {
+    return this.http.put<Usuario>(
+      `${this.apiUrl}/${id}/rol`,
+      { rol: nuevoRol },
+      { headers: this.getAuthHeaders() }
+    );
   }
 }

@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductoService {
 
-  private apiUrl = 'http://localhost:5000/api'; // 🔹 Ajusta la URL de tu backend
+  private apiUrl = environment.apiUrl;  // 🔥 Usa el environment (local o producción)
 
   constructor(private http: HttpClient) {}
 
