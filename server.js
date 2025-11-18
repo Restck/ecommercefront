@@ -8,13 +8,13 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const PORT = process.env.PORT || 8080;
 
-// 📌 Ruta correcta del build Angular (AJÚSTALA cuando me confirmes cómo está tu /dist)
-const DIST_FOLDER = path.join(__dirname, "dist/browser");
+// 📌 Carpeta correcta del build Angular
+const DIST_FOLDER = path.join(__dirname, "dist/ecommerce-angular19/browser");
 
 // 📌 Servir archivos estáticos
 app.use(express.static(DIST_FOLDER));
 
-// 📌 Fallback para Angular SPA — Express 5 usa (req, res) sin ruta
+// 📌 Fallback Angular (Express 5: no usar "*")
 app.use((req, res) => {
   res.sendFile(path.join(DIST_FOLDER, "index.html"));
 });
