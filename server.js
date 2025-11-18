@@ -8,14 +8,14 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const PORT = process.env.PORT || 8080;
 
-// 📌 Carpeta correcta del build Angular
-const DIST_FOLDER = path.join(__dirname, "dist/ecommerce-angular19");
+// 📌 Ruta correcta del build Angular (Angular 17+ genera dist/browser)
+const DIST_FOLDER = path.join(__dirname, "dist/browser");
 
 // 📌 Servir archivos estáticos
 app.use(express.static(DIST_FOLDER));
 
-// 📌 Fallback para Angular SPA (Express 5 usa regex)
-app.get(/.*/, (req, res) => {
+// 📌 Fallback para Angular SPA
+app.get("*", (req, res) => {
   res.sendFile(path.join(DIST_FOLDER, "index.html"));
 });
 
