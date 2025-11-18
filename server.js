@@ -14,8 +14,8 @@ const DIST_FOLDER = path.join(__dirname, "dist/ecommerce-angular19");
 // 📌 Servir archivos estáticos
 app.use(express.static(DIST_FOLDER));
 
-// 📌 Enviar index.html en cualquier ruta (Angular SPA)
-app.get("*", (req, res) => {
+// 📌 Para cualquier ruta del frontend Angular (Express 5 usa "/*")
+app.all("/*", (req, res) => {
   res.sendFile(path.join(DIST_FOLDER, "index.html"));
 });
 
