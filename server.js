@@ -8,15 +8,18 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const PORT = process.env.PORT || 8080;
 
-// Servir estáticos desde /dist/browser
-app.use(express.static(path.join(__dirname, "dist", "browser")));
+// Ruta correcta del build Angular 17/18/19
+const DIST_FOLDER = path.join(__dirname, "dist", "ecommerce-angular19", "browser");
 
-// 🚫 IMPORTANTÍSIMO: NO usar "*" en Express 5
-// Catch-all: debe ser SIN RUTA
+// Servir archivos estáticos
+app.use(express.static(DIST_FOLDER));
+
+// Catch-all sin wildcard (Express 5)
 app.use((req, res) => {
-  res.sendFile(path.join(__dirname, "dist", "browser", "index.html"));
+  res.sendFile(path.join(DIST_FOLDER, "index.html"));
 });
 
-app.listen(PORT, () =>
-  console.log(`🚀 Frontend running on port ${PORT}`)
-);
+app.listen(PORT, () => {
+  console.log(`🚀 Frontend running on port ${PORT}`);
+  console.log(`📁 Serving from: ${DIST_FOLDER}`);
+});
