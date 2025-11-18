@@ -3,14 +3,15 @@
   "version": "0.0.0",
   "private": true,
   "type": "module",
-  "scripts": {
+"scripts": {
   "ng": "ng",
   "start": "node server.js",
   "build": "ng build --configuration production",
   "postinstall": "npm run build",
   "watch": "ng build --watch --configuration development",
   "test": "ng test"
-},
+}
+,
   "dependencies": {
     "@angular/animations": "^19.2.14",
     "@angular/cdk": "^19.2.19",
