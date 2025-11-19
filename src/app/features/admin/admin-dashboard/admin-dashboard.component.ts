@@ -4,6 +4,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTableModule } from '@angular/material/table';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { environment } from '../../../../environments/environment';
 import { timer, switchMap } from 'rxjs';
 import {
   trigger,
@@ -11,6 +12,7 @@ import {
   style,
   animate
 } from '@angular/animations';
+
 
 interface DashboardStats {
   productos: number;
@@ -41,18 +43,18 @@ interface DashboardStats {
   ]
 })
 export class AdminDashboardComponent implements OnInit {
-  // Estadísticas
   productos = 0;
   pedidos = 0;
   usuarios = 0;
   ingresos = 0;
 
-  private apiUrl = 'http://localhost:5000/api/dashboard';
+  // 🔥 Ruta corregida
+  private apiUrl = `${environment.apiUrl}/dashboard`;
 
   constructor(private http: HttpClient) {}
 
   ngOnInit(): void {
-    timer(0, 15000) // cada 15 segundos
+    timer(0, 15000)
       .pipe(switchMap(() => this.http.get<DashboardStats>(this.apiUrl)))
       .subscribe((data) => {
         this.animate('productos', data.productos, 400);
@@ -63,10 +65,8 @@ export class AdminDashboardComponent implements OnInit {
   }
 
   animate(prop: keyof AdminDashboardComponent, target: number, duration: number) {
-    const current = this[prop];
-    const start = typeof current === 'number' ? current : 0;
+    const start = (this as any)[prop] || 0;
     const range = target - start;
-
     const frameRate = 10;
     const steps = duration / frameRate;
     let step = 0;
