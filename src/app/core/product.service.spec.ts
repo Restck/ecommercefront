@@ -8,7 +8,8 @@ import { environment } from '../../environments/environment';
 })
 export class ProductoService {
 
-  private apiUrl = environment.apiUrl;  // 🔥 Usa el environment (local o producción)
+  // 🔥 Ahora apunta correctamente a /api
+  private apiUrl = `${environment.apiUrl}/api`;
 
   constructor(private http: HttpClient) {}
 

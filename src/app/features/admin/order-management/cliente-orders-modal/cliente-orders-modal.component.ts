@@ -12,6 +12,7 @@ import { FormsModule } from '@angular/forms';
 import { OrderService, Order } from '../../../../core/order.service';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { OrderSummaryComponent } from '../order-summary/order-summary.component';
+import { environment } from '../../../../../environments/environment';
 
 type PedidoExtendido = Order & {
   estadoOriginal: string;
@@ -90,7 +91,7 @@ export class ClienteOrdersModalComponent implements OnInit {
     if (order.comprobante.startsWith('http')) return order.comprobante;
 
     // Concatenar con backend
-    return `http://localhost:5000${order.comprobante}`;
+    return `${environment.apiUrl}${order.comprobante}`;
   }
 
   // ================================

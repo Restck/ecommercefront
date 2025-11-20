@@ -14,11 +14,12 @@ export interface Usuario {
 @Injectable({ providedIn: 'root' })
 export class UsuarioService {
 
-  private apiUrl = `${environment.apiUrl}/usuarios`;
+  // 🔗 URL corregida con `/api`
+  private apiUrl = `${environment.apiUrl}/api/usuarios`;
 
   constructor(private http: HttpClient) {}
 
-  // 🔐 Obtener token con headers
+  // 🔐 Obtener token desde localStorage
   private getAuthHeaders(): HttpHeaders {
     const token = localStorage.getItem('token') || '';
     return new HttpHeaders().set('Authorization', `Bearer ${token}`);

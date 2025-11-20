@@ -12,7 +12,8 @@ export interface Categoria {
   providedIn: 'root'
 })
 export class CategoriaService {
-  private baseUrl = `${environment.apiUrl}/categorias`;
+  // 🔥 Corregido: agregar /api/categorias
+  private baseUrl = `${environment.apiUrl}/api/categorias`;
 
   constructor(private http: HttpClient) {}
 

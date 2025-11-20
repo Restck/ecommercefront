@@ -6,8 +6,8 @@ import { environment } from '../../environments/environment';
 @Injectable({ providedIn: 'root' })
 export class AuthService {
 
-  // 👉 Ahora usa environment.apiUrl
-  private apiUrl = `${environment.apiUrl}/api/auth`;
+  // 👉 URL correcta (sin doble /api)
+  private apiUrl = `${environment.apiUrl}/auth`;
 
   // Signals reactivas
   isLoggedIn = signal(false);

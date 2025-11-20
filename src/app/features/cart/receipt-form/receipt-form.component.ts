@@ -56,6 +56,9 @@ export class ReceiptFormComponent {
   referenciaPago = '';
   ordenId: string = '';
 
+  // 🌐 URL Railway (actualizada)
+  private apiBase = 'https://ecommerce-back-production-af8e.up.railway.app/api';
+
   private router = inject(Router);
   private http = inject(HttpClient);
   private snackBar = inject(MatSnackBar);
@@ -80,8 +83,8 @@ export class ReceiptFormComponent {
 
       const reader = new FileReader();
       reader.onload = () => {
-  this.vistaPrevia = reader.result as string;
-};
+        this.vistaPrevia = reader.result as string;
+      };
       reader.readAsDataURL(this.archivo);
     }
   }
@@ -102,20 +105,22 @@ export class ReceiptFormComponent {
     formData.append('nombreTitular', this.nombreTitular);
     formData.append('referenciaPago', this.referenciaPago);
 
-    const token = this.authService.getToken(); // ✅ usar AuthService
+    const token = this.authService.getToken();
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
 
     this.cargando = true;
 
-    this.http.put(`http://localhost:5000/api/ordenes/${this.ordenId}/comprobante`, formData, { headers }).subscribe({
+    this.http.put(
+      `${this.apiBase}/order/${this.ordenId}/comprobante`,
+      formData,
+      { headers }
+    ).subscribe({
       next: () => {
         this.snackBar.open('✅ Comprobante subido correctamente', 'Cerrar', { duration: 3000 });
 
-        // Vaciar carrito local
         this.cartService.vaciarCarrito();
 
-        // 🔑 Verificar rol del usuario
-        const usuario = this.authService.getUser(); // ✅ usar el método correcto
+        const usuario = this.authService.getUser();
 
         if (usuario?.rol === 'vendedor') {
           this.router.navigate(['/vendedor/pedidos-en-espera']);

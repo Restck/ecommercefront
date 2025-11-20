@@ -175,11 +175,13 @@ export class OrderListComponent implements OnInit {
   private http = inject(HttpClient);
   private dialog = inject(MatDialog);
 
+  private apiBase = 'https://ecommerce-back-production-af8e.up.railway.app/api';
+
   ngOnInit(): void {
     const token = localStorage.getItem('token');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
 
-    this.http.get<any[]>('http://localhost:5000/api/ordenes/mis', { headers }).subscribe({
+    this.http.get<any[]>(`${this.apiBase}/order/mis`, { headers }).subscribe({
       next: (data) => {
         this.pedidos = data;
         this.cargando = false;

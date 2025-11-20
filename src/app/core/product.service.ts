@@ -49,11 +49,13 @@ export interface Producto {
 export class ProductoService {
 
   // ===========================
-  // 🔗 BASE URL DESDE ENV
+  // 🔗 BASE URL CORRECTAS
   // ===========================
-  private apiUrl = `${environment.apiUrl}/productos`;
-  private apiCategorias = `${environment.apiUrl}/categorias`;
-  private apiProveedores = `${environment.apiUrl}/proveedores`;
+  private baseApi = `${environment.apiUrl}/api`;
+
+  private apiUrl = `${this.baseApi}/productos`;
+  private apiCategorias = `${this.baseApi}/categorias`;
+  private apiProveedores = `${this.baseApi}/proveedores`;
 
   private productosActualizados = new BehaviorSubject<boolean>(false);
   productosActualizados$ = this.productosActualizados.asObservable();

@@ -49,9 +49,10 @@ export class AdminDashboardComponent implements OnInit {
   ingresos = 0;
 
   // 🔥 Ruta corregida
-  private apiUrl = `${environment.apiUrl}/dashboard`;
+  private apiUrl = `${environment.apiUrl}/api/dashboard`;
 
-  constructor(private http: HttpClient) {}
+
+  constructor(private http: HttpClient) { }
 
   ngOnInit(): void {
     timer(0, 15000)

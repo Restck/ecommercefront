@@ -59,8 +59,8 @@ export interface Order {
 @Injectable({ providedIn: 'root' })
 export class OrderService {
 
-  // 🔗 Ruta base actualizada con environment
-  private readonly apiUrl = `${environment.apiUrl}/ordenes`;
+  // 🟢 Corregido: ahora incluye /api
+  private readonly apiUrl = `${environment.apiUrl}/api/ordenes`;
 
   constructor(
     private http: HttpClient,
@@ -75,7 +75,7 @@ export class OrderService {
     });
   }
 
-  // 🛒 Crear nuevo pedido (cliente)
+  // 🛒 Crear nuevo pedido
   crearPedido(pedido: CrearPedidoDTO): Observable<{ mensaje: string; pedido: Order }> {
     return this.http.post<{ mensaje: string; pedido: Order }>(
       this.apiUrl,
@@ -96,14 +96,14 @@ export class OrderService {
     );
   }
 
-  // 📦 Obtener todos los pedidos (admin)
+  // 📦 Obtener todos los pedidos
   obtenerPedidos(): Observable<Order[]> {
     return this.http.get<Order[]>(this.apiUrl, {
       headers: this.getAuthHeaders()
     });
   }
 
-  // 🧍 Obtener pedidos de un cliente (solo admin)
+  // 🧍 Admin: pedidos por cliente
   getPedidosPorCliente(clienteId: string): Observable<Order[]> {
     return this.http.get<Order[]>(
       `${this.apiUrl}/cliente/${clienteId}`,
@@ -111,21 +111,21 @@ export class OrderService {
     );
   }
 
-  // 👤 Obtener pedidos del cliente logueado
+  // 👤 Cliente: mis pedidos
   getMisPedidos(): Observable<Order[]> {
     return this.http.get<Order[]>(`${this.apiUrl}/mis`, {
       headers: this.getAuthHeaders()
     });
   }
 
-  // 🛍️ Pedidos vendidos por el vendedor logueado
+  // 👨‍💼 Vendedor: pedidos vendidos
   getPedidosVendedor(): Observable<Order[]> {
     return this.http.get<Order[]>(`${this.apiUrl}/mis-vendidos`, {
       headers: this.getAuthHeaders()
     });
   }
 
-  // 🧑‍💼 Admin: obtener pedidos por vendedor
+  // 🧑‍💼 Admin: pedidos por vendedor
   getPedidosPorVendedorAdmin(vendedorId: string): Observable<Order[]> {
     return this.http.get<Order[]>(
       `${this.apiUrl}/vendedor/${vendedorId}`,
@@ -133,7 +133,7 @@ export class OrderService {
     );
   }
 
-  // 🔄 Actualizar estado del pedido
+  // 🔄 Estado del pedido
   actualizarEstadoPedido(id: string, estado: Order['estado']): Observable<{ mensaje: string; pedido: Order }> {
     return this.http.put<{ mensaje: string; pedido: Order }>(
       `${this.apiUrl}/${id}/estado`,
@@ -142,7 +142,7 @@ export class OrderService {
     );
   }
 
-  // ✅ Estado del comprobante
+  // 🧾 Estado del comprobante
   actualizarEstadoComprobante(orderId: string, estado: 'pendiente' | 'aprobado' | 'rechazado'): Observable<{ mensaje: string; orden: Order }> {
     return this.http.put<{ mensaje: string; orden: Order }>(
       `${this.apiUrl}/${orderId}/estado-comprobante`,
@@ -151,7 +151,7 @@ export class OrderService {
     );
   }
 
-  // ⚠️ Confirmar pedido → descuenta stock
+  // ⚠️ Confirmar (descuenta stock)
   confirmarPedido(orderId: string): Observable<{ mensaje: string; pedido: Order }> {
     return this.http.put<{ mensaje: string; pedido: Order }>(
       `${this.apiUrl}/${orderId}/confirmar`,

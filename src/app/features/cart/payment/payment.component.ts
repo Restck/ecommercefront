@@ -37,7 +37,8 @@ export class PaymentComponent implements OnInit {
   productos: any[] = [];
   loading = true;
 
-  private apiBase = 'http://localhost:5000/secure';
+  // 🔥 Enlace actualizado a Railway
+  private apiBase = 'https://ecommerce-back-production-af8e.up.railway.app/api/secure';
 
   constructor(
     private router: Router,
@@ -58,7 +59,6 @@ export class PaymentComponent implements OnInit {
         this.modo = datos.modo ?? this.modo;
         this.productos = Array.isArray(datos.productos) ? datos.productos : [];
 
-        // 🔹 Detectar si es pedido de vendedor
         if (datos.cliente) {
           this.nombre = datos.cliente.nombre ?? '';
           this.telefono = datos.cliente.telefono ?? '';
@@ -74,16 +74,9 @@ export class PaymentComponent implements OnInit {
         }
       }
 
-      console.log('🧾 Datos cargados en Payment:', {
-        total: this.total,
-        modo: this.modo,
-        nombre: this.nombre,
-        productos: this.productos
-      });
-
       this.obtenerQrSeguro();
     } catch (error) {
-      console.error('❌ Error en PaymentComponent:', error);
+      console.error('Error en PaymentComponent:', error);
       this.router.navigate(['/carrito']);
     }
   }
@@ -96,8 +89,7 @@ export class PaymentComponent implements OnInit {
         this.qrUrl = `${this.apiBase}/qr-nequi?token=${token}`;
         this.loading = false;
       },
-      error: (err) => {
-        console.error('❌ Error al obtener token del QR:', err);
+      error: () => {
         this.qrUrl = 'assets/img/qr-fallback.png';
         this.loading = false;
       },
@@ -105,7 +97,6 @@ export class PaymentComponent implements OnInit {
   }
 
   onQrError(event: Event): void {
-    console.error('⚠️ Error al cargar el QR, usando respaldo');
     (event.target as HTMLImageElement).src = 'assets/img/qr-fallback.png';
   }
 
@@ -121,13 +112,13 @@ export class PaymentComponent implements OnInit {
 
   continuar(): void {
     if (this.total <= 0 || !this.productos.length) {
-      this.snackBar.open('❌ Datos del pedido inválidos', 'Cerrar', { duration: 3000, panelClass: ['snackbar-error'] });
+      this.snackBar.open('Datos del pedido inválidos', 'Cerrar', { duration: 3000 });
       this.router.navigate(['/carrito']);
       return;
     }
 
     if (!this.nombre || !this.telefono || !this.ciudad || !this.direccion) {
-      this.snackBar.open('❌ Faltan datos del comprador.', 'Cerrar', { duration: 3000, panelClass: ['snackbar-error'] });
+      this.snackBar.open('Faltan datos del comprador.', 'Cerrar', { duration: 3000 });
       return;
     }
 
@@ -135,11 +126,6 @@ export class PaymentComponent implements OnInit {
       const idProducto = item._id || item.producto?._id || item.producto || null;
       return idProducto ? { producto: idProducto, cantidad: item.cantidad ?? 1 } : null;
     }).filter(p => !!p);
-
-    if (!productosFormateados.length) {
-      this.snackBar.open('❌ No se encontraron productos válidos en el pedido', 'Cerrar', { duration: 3000, panelClass: ['snackbar-error'] });
-      return;
-    }
 
     const pedido = {
       productos: productosFormateados,
@@ -152,17 +138,9 @@ export class PaymentComponent implements OnInit {
       indicaciones: this.indicaciones
     };
 
-    console.log('📦 Pedido a enviar:', pedido);
-
     this.orderService.crearPedido(pedido).subscribe({
       next: (res) => {
         const pedidoId = res.pedido?._id || '';
-        if (!pedidoId) {
-          this.snackBar.open('❌ No se pudo obtener el ID del pedido', 'Cerrar', { duration: 3000, panelClass: ['snackbar-error'] });
-          return;
-        }
-
-        console.log('✅ Pedido creado con éxito:', pedidoId);
         localStorage.setItem('ordenId', pedidoId);
 
         this.router.navigate(['/subir-recibo'], {
@@ -178,9 +156,8 @@ export class PaymentComponent implements OnInit {
         });
       },
       error: (err) => {
-        console.error('❌ Error al crear pedido:', err);
-        const msg = err.error?.mensaje || 'Error al crear el pedido. Inténtalo de nuevo.';
-        this.snackBar.open(msg, 'Cerrar', { duration: 3000, panelClass: ['snackbar-error'] });
+        const msg = err.error?.mensaje || 'Error al crear el pedido.';
+        this.snackBar.open(msg, 'Cerrar', { duration: 3000 });
       }
     });
   }

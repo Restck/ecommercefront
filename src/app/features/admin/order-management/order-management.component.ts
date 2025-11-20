@@ -12,6 +12,7 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ClienteOrdersModalComponent } from './cliente-orders-modal/cliente-orders-modal.component';
 import { SellerOrderModalComponent } from './seller-order-modal/seller-order-modal.component';
+import { environment } from '../../../../environments/environment';
 
 interface UsuarioStats {
   _id: string;
@@ -98,7 +99,7 @@ export class OrderManagementComponent implements OnInit {
     if (usuario?.rol === 'vendedor') {
       this.tipoUsuario = 'vendedor';
       this.tipoVista = 'vendedor';
-      this.cargarPedidosVendedor(); // ✅ solo sus pedidos
+      this.cargarPedidosVendedor();
     } else if (usuario?.rol === 'cliente') {
       this.tipoUsuario = 'cliente';
       this.tipoVista = 'cliente';
@@ -146,14 +147,10 @@ export class OrderManagementComponent implements OnInit {
 
   // 🔹 CLIENTES
   cargarClientes(): void {
-    const token = localStorage.getItem('token');
-    const headers = token
-      ? new HttpHeaders().set('Authorization', `Bearer ${token}`)
-      : undefined;
-
+    const headers = this.getHeaders();
     this.http
       .get<UsuarioStats[]>(
-        'http://localhost:5000/api/usuarios/estadisticas/clientes',
+        `${environment.apiUrl}/usuarios/estadisticas/clientes`,
         { headers }
       )
       .subscribe({
@@ -164,14 +161,10 @@ export class OrderManagementComponent implements OnInit {
 
   // 🔹 VENDEDORES
   cargarVendedores(): void {
-    const token = localStorage.getItem('token');
-    const headers = token
-      ? new HttpHeaders().set('Authorization', `Bearer ${token}`)
-      : undefined;
-
+    const headers = this.getHeaders();
     this.http
       .get<UsuarioStats[]>(
-        'http://localhost:5000/api/usuarios/estadisticas/vendedores',
+        `${environment.apiUrl}/usuarios/estadisticas/vendedores`,
         { headers }
       )
       .subscribe({
@@ -182,14 +175,10 @@ export class OrderManagementComponent implements OnInit {
 
   // 🔹 PEDIDOS DEL VENDEDOR LOGUEADO
   cargarPedidosVendedor(): void {
-    const token = localStorage.getItem('token');
-    const headers = token
-      ? new HttpHeaders().set('Authorization', `Bearer ${token}`)
-      : undefined;
-
+    const headers = this.getHeaders();
     this.http
       .get<PedidoVendedor[]>(
-        'http://localhost:5000/api/order/mis-pedidos',
+        `${environment.apiUrl}/order/mis-pedidos`,
         { headers }
       )
       .subscribe({
@@ -197,6 +186,14 @@ export class OrderManagementComponent implements OnInit {
         error: (err) =>
           console.error('❌ Error al cargar pedidos del vendedor', err),
       });
+  }
+
+  // Headers reutilizables
+  private getHeaders(): HttpHeaders | undefined {
+    const token = localStorage.getItem('token');
+    return token
+      ? new HttpHeaders().set('Authorization', `Bearer ${token}`)
+      : undefined;
   }
 
   // 🔍 FILTROS
@@ -224,7 +221,7 @@ export class OrderManagementComponent implements OnInit {
     this.filtroVendedor = '';
   }
 
-  // 🔹 ABRIR MODALES SEGÚN TIPO DE VISTA
+  // 🔹 ABRIR MODALES
   abrirPedidos(usuario: UsuarioStats): void {
     const data =
       this.tipoVista === 'cliente'
@@ -232,7 +229,6 @@ export class OrderManagementComponent implements OnInit {
         : { vendedorId: usuario._id };
 
     if (this.tipoVista === 'vendedor') {
-      // 🔹 Modal del vendedor
       this.dialog.open(SellerOrderModalComponent, {
         maxWidth: '95vw',
         width: '95vw',
@@ -242,7 +238,6 @@ export class OrderManagementComponent implements OnInit {
         data,
       });
     } else {
-      // 🔹 Modal del cliente
       this.dialog.open(ClienteOrdersModalComponent, {
         maxWidth: '95vw',
         width: '95vw',
