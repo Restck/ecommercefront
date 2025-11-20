@@ -57,7 +57,7 @@ export class ReceiptFormComponent {
   ordenId: string = '';
 
   // 🌐 URL Railway (actualizada)
-  private apiBase = 'https://ecommerce-back-production-af8e.up.railway.app/api';
+  private apiBase = 'https://ecommerce-back-production-af8e.up.railway.app';
 
   private router = inject(Router);
   private http = inject(HttpClient);

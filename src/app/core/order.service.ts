@@ -60,7 +60,7 @@ export interface Order {
 export class OrderService {
 
   // 🟢 Corregido: ahora incluye /api
-  private readonly apiUrl = `${environment.apiUrl}/api/ordenes`;
+  private readonly apiUrl = `${environment.apiUrl}/ordenes`;
 
   constructor(
     private http: HttpClient,

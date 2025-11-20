@@ -15,7 +15,7 @@ export interface Usuario {
 export class UsuarioService {
 
   // 🔗 URL corregida con `/api`
-  private apiUrl = `${environment.apiUrl}/api/usuarios`;
+  private apiUrl = `${environment.apiUrl}/usuarios`;
 
   constructor(private http: HttpClient) {}
 

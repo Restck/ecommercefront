@@ -38,7 +38,7 @@ export class PaymentComponent implements OnInit {
   loading = true;
 
   // 🔥 Enlace actualizado a Railway
-  private apiBase = 'https://ecommerce-back-production-af8e.up.railway.app/api/secure';
+  private apiBase = 'https://ecommerce-back-production-af8e.up.railway.app/secure';
 
   constructor(
     private router: Router,

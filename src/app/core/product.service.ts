@@ -51,7 +51,7 @@ export class ProductoService {
   // ===========================
   // 🔗 BASE URL CORRECTAS
   // ===========================
-  private baseApi = `${environment.apiUrl}/api`;
+  private baseApi = `${environment.apiUrl}`;
 
   private apiUrl = `${this.baseApi}/productos`;
   private apiCategorias = `${this.baseApi}/categorias`;

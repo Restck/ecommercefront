@@ -8,7 +8,7 @@ import { environment } from '../../environments/environment';
 export class AdminOrdersService {
 
   // 👉 Ahora usa environment.apiUrl (Railway o localhost según build)
-  private apiUrl = `${environment.apiUrl}/api/ordenes`;
+  private apiUrl = `${environment.apiUrl}/ordenes`;
 
   constructor(private http: HttpClient) {}
 

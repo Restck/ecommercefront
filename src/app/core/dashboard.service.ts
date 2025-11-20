@@ -13,7 +13,7 @@ export interface DashboardStats {
 @Injectable({ providedIn: 'root' })
 export class DashboardService {
   // 🔥 Corregido: agregar /api/dashboard
-  private url = `${environment.apiUrl}/api/dashboard`;
+  private url = `${environment.apiUrl}/dashboard`;
 
   constructor(private http: HttpClient) {}
 

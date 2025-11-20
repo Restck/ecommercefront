@@ -49,7 +49,7 @@ export class AdminDashboardComponent implements OnInit {
   ingresos = 0;
 
   // 🔥 Ruta corregida
-  private apiUrl = `${environment.apiUrl}/api/dashboard`;
+  private apiUrl = `${environment.apiUrl}/dashboard`;
 
 
   constructor(private http: HttpClient) { }
