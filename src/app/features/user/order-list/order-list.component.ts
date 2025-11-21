@@ -181,7 +181,7 @@ export class OrderListComponent implements OnInit {
     const token = localStorage.getItem('token');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
 
-    this.http.get<any[]>(`${this.apiBase}/order/mis`, { headers }).subscribe({
+    this.http.get<any[]>(`${this.apiBase}/ordenes/mis`, { headers }).subscribe({
       next: (data) => {
         this.pedidos = data;
         this.cargando = false;
