@@ -111,7 +111,7 @@ export class ReceiptFormComponent {
     this.cargando = true;
 
     this.http.put(
-      `${this.apiBase}/order/${this.ordenId}/comprobante`,
+      `${this.apiBase}/ordenes/${this.ordenId}/comprobante`,
       formData,
       { headers }
     ).subscribe({
